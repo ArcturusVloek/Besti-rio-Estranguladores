@@ -1,0 +1,2603 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bestiário — Estranguladores | Êxodos RPG v6</title>
+<style>
+
+/* ══════════════════════════════════════════════════
+   ÊXODOS BESTIÁRIO — CSS UNIFICADO v2
+   Fonte: Lora (títulos) + Syne Mono (mono) + Inter (corpo)
+   Mobile-first, sem !important, sem backdrop-filter
+══════════════════════════════════════════════════ */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; max-width: 100%; overflow-x: hidden; }
+
+body {
+  background: #080a0d;
+  color: #d8dce6;
+  font-family: 'Inter', 'Helvetica Neue', sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+/* ── VARIÁVEIS ────────────────────────────────── */
+:root {
+  --bg:     #080a0d;
+  --surf:   #0e1117;
+  --panel:  #141820;
+  --bord:   #1e2430;
+  --bord2:  #252d3a;
+  --text:   #d8dce6;
+  --dim:    #9aa0b0;
+  --dimmer: #555e70;
+  --mono:   'Syne Mono', 'Courier New', monospace;
+  --head:   'Lora', 'Georgia', serif;
+  --body:   'Inter', 'Helvetica Neue', sans-serif;
+  --e:  #5e6e7a; --d: #2e8b5a; --c: #1a7fa0;
+  --b:  #c87820; --a: #b52828; --s: #7c3aed; --ss: #c8196e;
+}
+
+/* ── NAV ─────────────────────────────────────── */
+.nav, nav {
+  position: sticky; top: 0; z-index: 100;
+  background: #080a0dF2;
+  border-bottom: 1px solid var(--bord);
+  display: flex; align-items: center;
+  padding: 0 14px; height: 48px;
+  gap: 4px; overflow-x: auto; overflow-y: hidden;
+  white-space: nowrap; -webkit-overflow-scrolling: touch;
+}
+.nav-brand, .brand {
+  font-family: var(--head); font-weight: 700;
+  font-size: 15px; color: #e55;
+  flex-shrink: 0; margin-right: 10px;
+  letter-spacing: .02em; font-style: italic;
+}
+.nb {
+  font-family: var(--mono); font-size: 10px;
+  padding: 3px 8px; border-radius: 3px;
+  border: 1px solid var(--bord);
+  color: var(--dimmer); text-decoration: none;
+  flex-shrink: 0; letter-spacing: .04em;
+  transition: color .15s, border-color .15s;
+}
+.nb:hover { color: var(--text); border-color: var(--bord2); }
+.nb[data-r="E"] { color: var(--e); }
+.nb[data-r="D"] { color: var(--d); }
+.nb[data-r="C"] { color: var(--c); }
+.nb[data-r="B"] { color: var(--b); }
+.nb[data-r="A"] { color: var(--a); }
+.nb[data-r="S"] { color: var(--s); }
+.nb[data-r="SS"]{ color: var(--ss); }
+
+/* ── HEADER ──────────────────────────────────── */
+.cat-wrap, .cat {
+  max-width: 960px; margin: 0 auto;
+  padding: 48px 14px 40px;
+  border-top: 1px solid transparent;
+}
+.cat-label, .cat-badge {
+  font-family: var(--mono); font-size: 10px;
+  letter-spacing: .16em; color: #e55;
+  margin-bottom: 12px;
+  display: flex; align-items: center; gap: 8px;
+}
+.cat-label::before, .cat-badge::before {
+  content: ''; display: block;
+  width: 20px; height: 1px; background: #e55;
+}
+.cat-title {
+  font-family: var(--head); font-weight: 700;
+  font-style: italic;
+  font-size: clamp(32px, 8vw, 80px);
+  line-height: 1.0; letter-spacing: -.01em;
+  margin-bottom: 18px;
+  word-break: break-word; overflow-wrap: break-word;
+}
+.cat-title small, .cat-title em {
+  display: block; font-size: .42em;
+  color: var(--dimmer); letter-spacing: .06em;
+  font-weight: 400; margin-bottom: 4px;
+  font-style: normal; font-family: var(--mono);
+}
+.cat-desc {
+  max-width: 560px; color: var(--dim);
+  font-size: 15px; line-height: 1.75;
+  border-left: 2px solid var(--bord2);
+  padding-left: 16px; font-style: italic;
+}
+.compat {
+  display: inline-flex; align-items: center; gap: 6px;
+  margin-top: 14px;
+  font-family: var(--mono); font-size: 10px;
+  color: var(--dimmer); border: 1px solid var(--bord);
+  background: var(--panel); padding: 4px 10px; border-radius: 3px;
+}
+.compat::before { content: '▸'; color: #e55; }
+
+/* ── MONSTER WRAPPER ─────────────────────────── */
+.mw, .m-wrap, .monster-section {
+  max-width: 960px; margin: 0 auto 64px;
+  padding: 0 14px;
+}
+.rank-row {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 8px;
+  font-family: var(--mono); font-size: 9px;
+  letter-spacing: .16em; color: var(--dimmer);
+  text-transform: uppercase;
+}
+.rpip, .rank-pip {
+  width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+}
+
+/* ── CARD ────────────────────────────────────── */
+.card, .m-card, .monster-card {
+  background: var(--surf);
+  border: 1px solid var(--bord);
+  border-radius: 10px; overflow: hidden;
+}
+/* Faixa de cor por rank */
+.card-top { height: 2px; width: 100%; }
+[data-r="E"] .card-top,
+[data-r="E"] .m-card::before,
+[data-r="E"] .monster-card::before { background: var(--e); }
+[data-r="D"] .card-top { background: var(--d); }
+[data-r="C"] .card-top { background: var(--c); }
+[data-r="B"] .card-top { background: var(--b); }
+[data-r="A"] .card-top { background: var(--a); }
+[data-r="S"] .card-top { background: linear-gradient(90deg, var(--s), #c084fc, var(--s)); }
+[data-r="SS"] .card-top { background: linear-gradient(90deg, var(--ss), #ff6ba8, var(--ss)); }
+
+/* Gradiente de fundo no header por rank */
+[data-r="E"] .ch, [data-r="E"] .card-head { background: linear-gradient(135deg,#111820,#0a0c10); }
+[data-r="D"] .ch, [data-r="D"] .card-head { background: linear-gradient(135deg,#0e1a12,#080d0a); }
+[data-r="C"] .ch, [data-r="C"] .card-head { background: linear-gradient(135deg,#0c1620,#080c10); }
+[data-r="B"] .ch, [data-r="B"] .card-head { background: linear-gradient(135deg,#1a1206,#0d0a06); }
+[data-r="A"] .ch, [data-r="A"] .card-head { background: linear-gradient(135deg,#1a0e0e,#0d0608); }
+[data-r="S"] .ch, [data-r="S"] .card-head { background: linear-gradient(135deg,#160c2a,#08060e); }
+[data-r="SS"] .ch, [data-r="SS"] .card-head { background: linear-gradient(135deg,#200818,#10020c); }
+/* Borda colorida por rank */
+[data-r="E"] .card, [data-r="E"] .m-card { border-color: #3a4550; }
+[data-r="D"] .card, [data-r="D"] .m-card { border-color: #1a5a3a; }
+[data-r="C"] .card, [data-r="C"] .m-card { border-color: #104a60; }
+[data-r="B"] .card, [data-r="B"] .m-card { border-color: #704a10; }
+[data-r="A"] .card, [data-r="A"] .m-card { border-color: #701818; }
+[data-r="S"] .card, [data-r="S"] .m-card { border-color: #4a1a8a; }
+[data-r="SS"] .card, [data-r="SS"] .m-card { border-color: #8a0a4a; }
+
+/* ── CARD HEAD ───────────────────────────────── */
+.ch, .card-head {
+  padding: 18px 16px 14px;
+  border-bottom: 1px solid var(--bord);
+  display: flex; justify-content: space-between;
+  align-items: flex-start; gap: 10px; overflow: hidden;
+}
+.clabel, .c-label, .monster-cat {
+  font-family: var(--mono); font-size: 9px;
+  letter-spacing: .14em; color: var(--dimmer);
+  margin-bottom: 2px; opacity: .7;
+}
+.cname, .c-name, .monster-name {
+  font-family: var(--head); font-weight: 700;
+  font-style: italic;
+  font-size: clamp(22px, 5.5vw, 38px);
+  line-height: .95; letter-spacing: -.01em;
+  color: #f0f4ff;
+  word-break: break-word; overflow-wrap: break-word;
+}
+.ctags, .c-tags, .monster-tags {
+  display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px;
+}
+.ctag, .tag {
+  font-family: var(--mono); font-size: 9px;
+  color: var(--dim); background: var(--panel);
+  border: 1px solid var(--bord);
+  padding: 2px 7px; border-radius: 3px;
+}
+.rbadge, .rank-badge {
+  font-family: var(--head); font-weight: 700;
+  font-size: clamp(16px, 3.5vw, 26px);
+  line-height: 1; padding: 5px 9px;
+  border-radius: 5px; border: 2px solid;
+  min-width: 36px; text-align: center; flex-shrink: 0;
+}
+[data-r="E"] .rbadge, [data-r="E"] .rank-badge { color: var(--e); border-color: var(--e); }
+[data-r="D"] .rbadge, [data-r="D"] .rank-badge { color: var(--d); border-color: var(--d); }
+[data-r="C"] .rbadge, [data-r="C"] .rank-badge { color: var(--c); border-color: var(--c); }
+[data-r="B"] .rbadge, [data-r="B"] .rank-badge { color: var(--b); border-color: var(--b); }
+[data-r="A"] .rbadge, [data-r="A"] .rank-badge { color: var(--a); border-color: var(--a); }
+[data-r="S"] .rbadge, [data-r="S"] .rank-badge { color: var(--s); border-color: var(--s); background: rgba(124,58,237,.08); }
+[data-r="SS"] .rbadge, [data-r="SS"] .rank-badge { color: var(--ss); border-color: var(--ss); background: rgba(200,25,110,.1); }
+
+/* ── STAT BAR ────────────────────────────────── */
+.sbar, .stat-bar {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  background: var(--panel); border-bottom: 1px solid var(--bord);
+}
+@media(min-width:500px) {
+  .sbar, .stat-bar { grid-template-columns: repeat(6,1fr); }
+}
+.si, .stat-item {
+  padding: 10px 8px; border-right: 1px solid var(--bord); text-align: center;
+}
+.si:last-child, .stat-item:last-child { border-right: none; }
+.sk, .stat-key {
+  font-family: var(--mono); font-size: 8px;
+  letter-spacing: .12em; color: var(--dimmer);
+  text-transform: uppercase; margin-bottom: 2px;
+}
+.sv, .stat-val {
+  font-family: var(--head); font-weight: 700;
+  font-size: 20px; line-height: 1; color: var(--text);
+}
+.sv.hp, .stat-val.hp { color: #cc4040; }
+.sv.mp, .stat-val.mp { color: #3090c0; }
+.sv.ca, .stat-val.ca { color: #30a060; }
+.sv.rd, .stat-val.rd { color: #c08030; }
+.sv.sm, .stat-val.sm { font-size: 11px; padding-top: 3px; line-height: 1.3; }
+
+/* ── CARD BODY ───────────────────────────────── */
+.cb, .card-body {
+  padding: 16px 16px; display: flex;
+  flex-direction: column; gap: 16px;
+}
+
+/* ── ILUSTRAÇÃO ──────────────────────────────── */
+.creature-illustration {
+  width: 100%; border-radius: 5px; overflow: hidden;
+  border: 1px solid rgba(255,255,255,.05);
+}
+.creature-illustration svg { display: block; width: 100%; height: auto; }
+
+/* ── FLAVOR ──────────────────────────────────── */
+.flavor, .monster-flavor {
+  font-style: italic; color: var(--dim);
+  font-size: 14px; line-height: 1.7;
+  border-left: 2px solid var(--bord2); padding-left: 14px;
+}
+
+/* ── LAYOUT 2 COL ────────────────────────────── */
+.two {
+  display: grid; grid-template-columns: 1fr; gap: 16px;
+}
+@media(min-width:600px) {
+  .two { grid-template-columns: 1fr 1fr; }
+}
+
+/* ── SECTION TITLE ───────────────────────────── */
+.st, .sub-title {
+  font-family: var(--mono); font-weight: 700;
+  font-size: 9px; letter-spacing: .2em;
+  text-transform: uppercase; color: var(--dimmer);
+  margin-bottom: 9px;
+  display: flex; align-items: center; gap: 7px;
+}
+.st::after, .sub-title::after {
+  content: ''; flex: 1; height: 1px; background: var(--bord);
+}
+
+/* ── ATRIBUTOS ───────────────────────────────── */
+.ag, .attr-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 4px; }
+.abox, .ab2-attr, .attr-box {
+  background: var(--bg); border: 1px solid var(--bord);
+  border-radius: 4px; padding: 6px 4px; text-align: center;
+}
+.ak, .attr-key { font-family: var(--mono); font-size: 8px; color: var(--dimmer); letter-spacing: .1em; }
+.av, .attr-val { font-family: var(--head); font-weight: 700; font-size: 18px; line-height: 1.1; }
+.am, .attr-mod { font-family: var(--mono); font-size: 9px; color: var(--dim); }
+
+/* ── META LIST ───────────────────────────────── */
+.ml, .meta-list { display: flex; flex-direction: column; gap: 3px; margin-top: 8px; }
+.mr, .meta-row { display: flex; gap: 6px; font-size: 13px; }
+.mk, .meta-k {
+  font-family: var(--mono); font-size: 9px; color: var(--dimmer);
+  letter-spacing: .06em; min-width: 90px; padding-top: 2px; flex-shrink: 0;
+}
+.mv, .meta-v { color: var(--dim); }
+
+/* ── FRAQUEZAS ───────────────────────────────── */
+.wl, .weakness-list { display: flex; flex-direction: column; gap: 5px; }
+.wr, .weakness-row { display: flex; gap: 7px; align-items: flex-start; font-size: 13px; }
+.wt, .w-type {
+  font-family: var(--mono); font-size: 8px; letter-spacing: .08em;
+  padding: 2px 5px; border-radius: 2px; flex-shrink: 0; margin-top: 2px;
+}
+.wt.v { background: rgba(204,40,40,.12); color: #e06060; border: 1px solid rgba(204,40,40,.25); }
+.wt.f { background: rgba(200,120,32,.1); color: #d09040; border: 1px solid rgba(200,120,32,.25); }
+.wt.i { background: rgba(42,144,80,.1); color: #50c080; border: 1px solid rgba(42,144,80,.2); }
+.wt.r { background: rgba(26,128,176,.1); color: #40a0d0; border: 1px solid rgba(26,128,176,.2); }
+.wd, .w-desc { color: var(--dim); line-height: 1.5; }
+/* compatibilidade com classes antigas */
+.wt.vulner { background: rgba(204,40,40,.12); color: #e06060; border: 1px solid rgba(204,40,40,.25); }
+.wt.fraco  { background: rgba(200,120,32,.1);  color: #d09040; border: 1px solid rgba(200,120,32,.25); }
+.wt.imune  { background: rgba(42,144,80,.1);   color: #50c080; border: 1px solid rgba(42,144,80,.2); }
+.wt.resist { background: rgba(26,128,176,.1);  color: #40a0d0; border: 1px solid rgba(26,128,176,.2); }
+
+/* ── TRAÇOS ──────────────────────────────────── */
+.tl, .trait-list { display: flex; flex-direction: column; gap: 10px; }
+.tr, .trait {
+  background: var(--panel); border: 1px solid var(--bord);
+  border-radius: 6px; padding: 12px 14px;
+}
+.tn, .trait-name {
+  font-family: var(--head); font-weight: 700; font-style: italic;
+  font-size: 15px; margin-bottom: 3px; color: #e8ecf4;
+}
+.td, .trait-desc {
+  font-size: 13px; color: var(--dim);
+  margin-bottom: 8px; line-height: 1.6;
+}
+.tm, .trait-mec, .ability-mec {
+  background: #141c24; border: 1px solid #1e2a3a;
+  border-radius: 5px; padding: 9px 12px;
+  font-family: var(--mono); font-size: 10.5px;
+  color: #c0c8d8; line-height: 1.8;
+}
+.tml, .tm-lbl, .trait-mec-label {
+  font-size: 8px; letter-spacing: .16em; color: #ff7070;
+  margin-bottom: 4px; text-transform: uppercase;
+}
+.tm b, .tm strong,
+.trait-mec b, .trait-mec strong,
+.ability-mec b, .ability-mec strong {
+  color: #e0e8f4; font-weight: 500;
+}
+
+/* ── HABILIDADES ─────────────────────────────── */
+.al, .ability-list { display: flex; flex-direction: column; gap: 12px; }
+.ab, .ab2, .ability {
+  border: 1px solid var(--bord); border-radius: 6px; overflow: hidden;
+}
+.ah, .ability-head {
+  padding: 10px 14px 8px; background: var(--panel);
+  border-bottom: 1px solid var(--bord);
+  display: flex; flex-wrap: wrap; gap: 6px; align-items: center;
+}
+.an, .ability-name {
+  font-family: var(--head); font-weight: 700; font-style: italic;
+  font-size: 14px; flex: 1; min-width: 80px;
+  color: #e8ecf4; word-break: break-word;
+}
+.at2, .ability-timing {
+  font-family: var(--mono); font-size: 8px; letter-spacing: .08em;
+  padding: 2px 6px; border-radius: 2px;
+  background: rgba(229,85,85,.1); color: #e07070;
+  border: 1px solid rgba(229,85,85,.2);
+}
+.atags, .ability-tags { display: flex; gap: 4px; flex-wrap: wrap; }
+.at3, .a-t {
+  font-family: var(--mono); font-size: 8px; letter-spacing: .06em;
+  padding: 2px 5px; border-radius: 2px;
+  background: var(--bg); border: 1px solid var(--bord); color: var(--dim);
+}
+.mpt, .mp-t, .mp-cost {
+  font-family: var(--mono); font-size: 8px;
+  color: #4090c0; background: rgba(48,144,192,.1);
+  border: 1px solid rgba(48,144,192,.2); padding: 2px 5px; border-radius: 2px;
+}
+.abody, .ability-body { padding: 12px 14px; }
+.amec {
+  font-family: var(--mono); font-size: 10.5px;
+  color: #c0c8d8; line-height: 1.8; margin-bottom: 7px;
+}
+.amec b, .amec strong { color: #e0e8f4; font-weight: 500; }
+.af, .ability-flavor {
+  font-style: italic; font-size: 12px; color: #2e3848;
+  border-top: 1px solid var(--bord); padding-top: 8px; line-height: 1.55;
+}
+
+/* ── NOTE BOXES ──────────────────────────────── */
+.nb2, .note-box {
+  background: var(--panel); border: 1px solid var(--bord);
+  border-radius: 6px; padding: 13px 15px;
+}
+.nb2 p, .note-box p { font-size: 13px; color: var(--dim); line-height: 1.65; }
+.nb2 p + p, .note-box p + p { margin-top: 7px; }
+.nb2 em, .note-box em { color: #e0e8f4; font-style: normal; font-weight: 600; }
+.nb2 strong, .note-box strong { color: #f0f4ff; }
+
+/* ── INFECÇÃO ────────────────────────────────── */
+.infect-box, .ibar {
+  background: rgba(42,80,42,.08);
+  border: 1px solid rgba(58,107,58,.25);
+  border-radius: 7px; padding: 14px 16px;
+}
+.infect-title, .ibar-title {
+  font-family: var(--mono); font-size: 9px;
+  letter-spacing: .14em; color: #5ab85a; margin-bottom: 10px;
+  display: flex; align-items: center; gap: 6px;
+}
+.infect-title::before, .ibar-title::before { content: '⬡'; }
+.istage, .infect-stage {
+  display: flex; align-items: flex-start; gap: 9px;
+  font-size: 12.5px; color: var(--dim); margin-bottom: 5px; line-height: 1.5;
+}
+.in, .stage-n {
+  font-family: var(--mono); font-size: 9px;
+  background: rgba(58,107,58,.2); color: #5ab85a;
+  border: 1px solid rgba(58,107,58,.3);
+  padding: 1px 5px; border-radius: 2px; flex-shrink: 0; margin-top: 1px;
+}
+
+/* ── LOOT ────────────────────────────────────── */
+.ll, .loot-list { display: flex; flex-direction: column; gap: 5px; }
+.li, .loot-item {
+  font-size: 13px; color: var(--dim);
+  background: var(--panel); border: 1px solid var(--bord);
+  border-radius: 4px; padding: 5px 9px;
+  display: flex; gap: 6px; align-items: flex-start;
+}
+.li::before, .loot-item::before {
+  content: '◆'; color: #c08030; font-size: 7px;
+  margin-top: 4px; flex-shrink: 0;
+}
+.lwarn, .loot-warn {
+  font-family: var(--mono); font-size: 8px;
+  color: #cc2828; letter-spacing: .07em;
+  margin-bottom: 4px; display: block;
+}
+
+/* ── PHASES ──────────────────────────────────── */
+.plist, .phase-list { display: flex; flex-direction: column; gap: 8px; }
+.ph, .phase { border: 1px solid var(--bord); border-radius: 6px; overflow: hidden; }
+.phh, .phase-h {
+  padding: 8px 14px; font-family: var(--head);
+  font-weight: 700; font-style: italic; font-size: 13px;
+  color: #e07070; background: rgba(229,85,85,.07);
+  border-bottom: 1px solid var(--bord);
+}
+.phh.ss, .phase-h.ss { color: var(--ss); background: rgba(200,25,110,.08); }
+.phb, .phase-b {
+  padding: 10px 14px; font-family: var(--mono);
+  font-size: 10.5px; color: #c0c8d8; line-height: 1.8;
+}
+
+/* ── FOOTER ──────────────────────────────────── */
+footer {
+  border-top: 1px solid var(--bord);
+  max-width: 960px; margin: 0 auto;
+  padding: 24px 14px;
+  display: flex; justify-content: space-between;
+  align-items: center; flex-wrap: wrap; gap: 8px;
+}
+.fbrand, .f-brand {
+  font-family: var(--head); font-weight: 700;
+  font-style: italic; font-size: 14px; color: var(--dimmer);
+}
+.finfo, .f-info {
+  font-family: var(--mono); font-size: 9px;
+  color: #1e2430; letter-spacing: .07em;
+}
+hr.div { border: none; border-top: 1px solid var(--bord); max-width: 960px; margin: 0 auto 40px; }
+
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <span class="nav-brand">Êxodos</span>
+  <span class="nav-dot">·</span>
+  <a class="nb" data-r="E" href="#larva">Rank E · Larva</a>
+  <a class="nb" data-r="E" href="#filamento">Rank E · Filamento</a>
+  <a class="nb" data-r="D" href="#ancorante">Rank D · Ancorante</a>
+  <a class="nb" data-r="D" href="#imitor">Rank D · Imitor</a>
+  <a class="nb" data-r="C" href="#drenador">Rank C · Drenador</a>
+  <a class="nb" data-r="C" href="#elo">Rank C · Elo</a>
+  <a class="nb" data-r="B" href="#simbiontico">Rank B · Simbiótico</a>
+  <a class="nb" data-r="B" href="#corrompido">Rank B · Corrompido</a>
+  <a class="nb" data-r="A" href="#confluencia">Rank A · Confluência</a>
+  <a class="nb" data-r="S" href="#carne-viva">Rank S · Carne Viva</a>
+  <a class="nb" data-r="SS" href="#ciclo">Rank SS · O Ciclo</a>
+</nav>
+
+<!-- HEADER -->
+<header class="cat">
+  <div class="cat-badge">Bestiário Êxodos · Categoria II · Manual v6</div>
+  <h1 class="cat-title">
+    <em>Categoria II</em>
+    Estranguladores
+  </h1>
+  <p class="cat-desc">
+    Não constroem nada. Não caçam no sentido convencional. Encontram algo vivo, entram, e o que estava lá dentro passa a servir a outra coisa. O hospedeiro não morre — transforma-se. Cada Estrangulador é uma hipótese sobre o que um corpo pode se tornar quando alguém mais decide por ele.
+  </p>
+  <span class="cat-warn">INFECÇÃO É IRREVERSÍVEL SEM ITEM ESPECIAL · PROTOCOLO DE CONTENÇÃO OBRIGATÓRIO</span>
+
+  <!-- Referência de Infecção -->
+  <div style="margin-top:32px; max-width:680px;">
+    <div class="infect-box">
+      <div class="infect-title">Referência Rápida — Estágios de Infecção</div>
+      <div class="istage"><span class="in">I</span>Hospedeiro age normalmente, mas começa a sentir impulsos estranhos. Cognitivamente intacto.</div>
+      <div class="istage"><span class="in">II</span>Parasita assume controle parcial. Hospedeiro age contra aliados sob certas condições (ver gatilhos).</div>
+      <div class="istage"><span class="in">III</span>Controle total. O hospedeiro é uma marionete — o parasita tem seus HP, habilidades e memórias. A personalidade original está suprimida, não destruída.</div>
+      <div class="istage"><span class="in">IV</span>Fusão. Corpo e parasita se reescrevem mutuamente. Irreversível sem Antídoto de Fenda rank S+. A personalidade original pode nunca ser recuperável.</div>
+      <div style="margin-top:10px; font-family:var(--mono); font-size:9px; color:var(--dimmer); letter-spacing:.06em;">
+        Remoção: estágios I–II → Antídoto rank D+ (remove o parasita, hospedeiro sobrevive) · estágio III → Antídoto rank B+ + Medicina CD 18 · estágio IV → Antídoto rank S+ (hospedeiro pode não sobreviver ao processo)
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- RANK E · LARVA                             -->
+<!-- ══════════════════════════════════════════ -->
+<div class="m-wrap" id="larva" data-r="E">
+  <div class="rank-row"><span class="rank-pip" style="background:var(--e)"></span>Estrangulador · Rank E</div>
+  <div class="m-card">
+    
+        <div class="creature-illustration"><svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="300" height="200" fill="#080a0d"/>
+  <defs>
+    <radialGradient id="gl" cx="50%" cy="50%" r="40%">
+      <stop offset="0%" stop-color="#5e6e7a" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#080a0d" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <ellipse cx="150" cy="110" rx="70" ry="45" fill="url(#gl)"/>
+  <line x1="0" y1="38" x2="300" y2="38" stroke="#5e6e7a" stroke-width="0.3" stroke-opacity="0.2"/>
+  <!-- heat detection waves -->
+  <circle cx="150" cy="108" r="40" fill="none" stroke="#5e6e7a" stroke-width="0.4" stroke-opacity="0.2" stroke-dasharray="2,4"/>
+  <circle cx="150" cy="108" r="60" fill="none" stroke="#5e6e7a" stroke-width="0.3" stroke-opacity="0.12" stroke-dasharray="2,6"/>
+  <!-- larvae swarm - translucent tiny forms -->
+  <g opacity="0.6">
+    <ellipse cx="140" cy="102" rx="4" ry="2.5" fill="#8aacba" fill-opacity="0.5" stroke="#7a9aaa" stroke-width="0.5"/>
+    <ellipse cx="155" cy="96" rx="3.5" ry="2" fill="#8aacba" fill-opacity="0.4" stroke="#7a9aaa" stroke-width="0.5"/>
+    <ellipse cx="165" cy="108" rx="4" ry="2.5" fill="#8aacba" fill-opacity="0.5" stroke="#7a9aaa" stroke-width="0.5"/>
+    <ellipse cx="148" cy="116" rx="3.5" ry="2" fill="#8aacba" fill-opacity="0.4" stroke="#7a9aaa" stroke-width="0.5"/>
+    <ellipse cx="132" cy="112" rx="3" ry="2" fill="#8aacba" fill-opacity="0.4" stroke="#7a9aaa" stroke-width="0.5"/>
+    <ellipse cx="170" cy="118" rx="3" ry="2" fill="#8aacba" fill-opacity="0.4" stroke="#7a9aaa" stroke-width="0.5"/>
+    <ellipse cx="158" cy="124" rx="3.5" ry="2" fill="#8aacba" fill-opacity="0.4" stroke="#7a9aaa" stroke-width="0.5"/>
+    <!-- tiny legs on each larva -->
+    <line x1="136" y1="101" x2="132" y2="98" stroke="#7a9aaa" stroke-width="0.6"/>
+    <line x1="136" y1="103" x2="131" y2="105" stroke="#7a9aaa" stroke-width="0.6"/>
+    <line x1="144" y1="101" x2="148" y2="98" stroke="#7a9aaa" stroke-width="0.6"/>
+    <line x1="151" y1="95" x2="147" y2="92" stroke="#7a9aaa" stroke-width="0.5"/>
+    <line x1="159" y1="95" x2="162" y2="92" stroke="#7a9aaa" stroke-width="0.5"/>
+    <!-- more dots -->
+    <circle cx="122" cy="105" r="1.2" fill="#7a9aaa" fill-opacity="0.4"/>
+    <circle cx="178" cy="102" r="1.2" fill="#7a9aaa" fill-opacity="0.4"/>
+    <circle cx="125" cy="118" r="1.0" fill="#7a9aaa" fill-opacity="0.3"/>
+    <circle cx="180" cy="120" r="1.0" fill="#7a9aaa" fill-opacity="0.3"/>
+    <circle cx="152" cy="130" r="1.2" fill="#7a9aaa" fill-opacity="0.3"/>
+  </g>
+  <path d="M10,10 L10,22 M10,10 L22,10" stroke="#5e6e7a" stroke-width="1" fill="none" stroke-opacity="0.5"/>
+  <path d="M290,190 L290,178 M290,190 L278,190" stroke="#5e6e7a" stroke-width="1" fill="none" stroke-opacity="0.5"/>
+  <text x="282" y="195" font-family="monospace" font-size="7" fill="#5e6e7a" text-anchor="end" opacity="0.7">LARVA</text>
+  <text x="18" y="195" font-family="monospace" font-size="7" fill="#5e6e7a" opacity="0.5">RANK E</text>
+</svg></div>
+        <div class="ch">
+      <div>
+        <div class="c-label">Estrangulador · Rank E</div>
+        <div class="c-name">LARVA</div>
+        <div class="c-tags">
+          <span class="ctag">Enxame</span>
+          <span class="ctag">Terrestre</span>
+          <span class="ctag infect">Infecção Estágio I</span>
+          <span class="ctag">Vetor de Entrada</span>
+        </div>
+      </div>
+      <div class="rank-badge">E</div>
+    </div>
+    <div class="sbar">
+      <div class="si"><div class="sk">HP</div><div class="sv hp">50</div></div>
+      <div class="si"><div class="sk">MP</div><div class="sv mp">15</div></div>
+      <div class="si"><div class="sk">CA</div><div class="sv ca">10</div></div>
+      <div class="si"><div class="sk">RD</div><div class="sv rd">0</div></div>
+      <div class="si"><div class="sk">INIT.</div><div class="sv">+1</div></div>
+      <div class="si"><div class="sk">DESLOC.</div><div class="sv sm">3 m / nadar 6 m</div></div>
+    </div>
+    <div class="cb">
+      <p class="flavor">
+        Invisíveis em repouso. Quase invisíveis em movimento. O primeiro sinal da presença de Larvas não é visual — é sensorial: um calor ligeiramente errado vindo do chão, um formigamento que você atribui à adrenalina. Quando você percebe que está sendo infectado, a infecção já começou. Isso é o que as diferencia: o Filhote você vê chegando. A Larva você descobre que já passou.
+      </p>
+      <div class="two">
+        <div>
+          <div class="st">Atributos</div>
+          <div class="ag">
+            <div class="ab"><div class="ak">FOR</div><div class="av">2</div><div class="am">−4</div></div>
+            <div class="ab"><div class="ak">AGI</div><div class="av">12</div><div class="am">+1</div></div>
+            <div class="ab"><div class="ak">CON</div><div class="av">8</div><div class="am">−1</div></div>
+            <div class="ab"><div class="ak">INT</div><div class="av">1</div><div class="am">−5</div></div>
+            <div class="ab"><div class="ak">SAB</div><div class="av">8</div><div class="am">−1</div></div>
+          </div>
+          <div class="ml">
+            <div class="mr"><span class="mk">Tamanho</span><span class="mv">Minúsculo (enxame)</span></div>
+            <div class="mr"><span class="mk">Encontro</span><span class="mv">30–100 larvas</span></div>
+            <div class="mr"><span class="mk">Fenda</span><span class="mv">Grau E</span></div>
+            <div class="mr"><span class="mk">Título rec.</span><span class="mv">Recruta supervisionado</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="st">Fraquezas &amp; Imunidades</div>
+          <div class="wl">
+            <div class="wr"><span class="wt v">VULNER</span><span class="wd">[Fogo] — dano ×3. Qualquer chama de área elimina dezenas por turno. Única solução confiável.</span></div>
+            <div class="wr"><span class="wt v">VULNER</span><span class="wd">[Ácido] ou [Veneno] — dissolve a membrana. Dano ×2.</span></div>
+            <div class="wr"><span class="wt i">IMUNE</span><span class="wd">Cegueira, Medo, Paralisia, Atordoamento.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="st">Traços Especiais</div>
+        <div class="tl">
+          <div class="tr">
+            <div class="tn">Infiltração</div>
+            <div class="td">As Larvas buscam cavidades corporais. Uma vez dentro do hospedeiro, iniciam a infecção. A defesa é física — elas não podem ser resistidas com SAB ou INT, apenas com equipamento ou barreira.</div>
+            <div class="tm">
+              <div class="tm-lbl">Mecânica</div>
+              Entrar no hospedeiro: AGI CD 11 para negar (o hospedeiro desvia).<br>
+              Armadura fechada (capacete + proteção de pescoço): bloqueia automaticamente.<br>
+              Falha: a larva está dentro — aplica Infecção Estágio I.<br>
+              Estágio I: hospedeiro age normalmente mas faz SAB CD 12/hora de infecção ou avança para Estágio II.
+            </div>
+          </div>
+          <div class="tr">
+            <div class="tn">Detecção de Calor</div>
+            <div class="td">Invisibilidade visual é inútil — Larvas detectam gradiente térmico. Poder [Gelo] sustentado suprime o calor corporal o suficiente para confundi-las.</div>
+            <div class="tm">
+              <div class="tm-lbl">Mecânica</div>
+              Invisibilidade visual: nenhum efeito.<br>
+              [Gelo] sustentado (CD 12): Larvas não conseguem localizar o alvo por 2 turnos.
+            </div>
+          </div>
+          <div class="tr">
+            <div class="tn">Infestação em Massa</div>
+            <div class="td">Quando 50+ Larvas estão ativas na mesma área, tratamento individual não é viável. O silêncio total — sem som, sem vibração — é o que a torna mais perigosa que qualquer enxame de Rastejantes.</div>
+            <div class="tm"><div class="tml">Mecânica</div>Regras de Maré Viva (Filhotes) com infecção no lugar do dano:<br>AGI CD 11/turno ou Infecção Estágio I · sem resistência ativa<br>SAB CD 18 para perceber a infestação antes de entrar · [Fogo] em área resolve</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="st">Protocolo de Extermínio</div>
+        <div class="al">
+          <div class="ab2">
+            <div class="ah">
+              <span class="an">Enxame Penetrante</span>
+              <span class="at2">AUTOMÁTICO/TURNO</span>
+              <div class="atags"><span class="a-t">[Físico]</span><span class="a-t">Área ocupada</span><span class="a-t infect" style="color:#5ab85a;border-color:rgba(58,107,58,.3);background:rgba(58,107,58,.1)">Infecção I</span><span class="mp-t">MP: —</span></div>
+            </div>
+            <div class="abody">
+              <div class="amec">
+                <strong>Automático:</strong> qualquer criatura na área das Larvas sem armadura fechada.<br>
+                <strong>Teste:</strong> AGI CD 11 para negar a infiltração.<br>
+                <strong>Dano físico:</strong> nenhum — a ameaça é a infecção, não a mordida.<br>
+                <strong>Falha:</strong> Infecção Estágio I (SAB CD 12/hora para não progredir).
+              </div>
+              <div class="af">Individualmente inofensivas. Juntas, são a semente de algo pior.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="two">
+        <div>
+          <div class="st">Loot</div>
+          <div class="ll">
+            <span class="loot-warn">⚠ Manuseio com proteção total</span>
+            <div class="li">Cápsula de Larva (inativa) · ingrediente de Antídoto rank D</div>
+            <div class="li">Membrana translúcida · componente de filtro de calor (dispositivo)</div>
+          </div>
+        </div>
+        <div>
+          <div class="st">Protocolo Tático</div>
+          <div class="nb2">
+            <p><em>[Fogo] em área é a única resposta eficaz.</em> Verificar armadura antes de entrar em área suspeita — capacete e proteção de pescoço bloqueiam infiltração automaticamente. Qualquer membro infectado (Estágio I) deve ser tratado antes do descanso.</p>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="st">Registro de Campo</div>
+        <div class="nb2">
+          <p>A Larva não é o perigo. É o primeiro elo. Pesquisadores que estudaram hospedeiros em Estágio I descrevem a infecção inicial como subclínica — sem dor, sem febre, sem sintoma físico visível. O hospedeiro sente apenas uma leve distância de si mesmo. Como se uma segunda perspectiva tivesse se instalado, silenciosa, no fundo da cabeça.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- RANK E · FILAMENTO                         -->
+<!-- ══════════════════════════════════════════ -->
+<div class="m-wrap" id="filamento" data-r="E">
+  <div class="rank-row"><span class="rank-pip" style="background:var(--e)"></span>Estrangulador · Rank E</div>
+  <div class="m-card">
+    
+        <div class="creature-illustration"><svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="300" height="200" fill="#080a0d"/>
+  <defs>
+    <radialGradient id="gfi" cx="55%" cy="50%" r="45%">
+      <stop offset="0%" stop-color="#5e6e7a" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#080a0d" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <ellipse cx="155" cy="110" rx="80" ry="50" fill="url(#gfi)"/>
+  <!-- host body (monster) suggested -->
+  <ellipse cx="168" cy="110" rx="55" ry="35" fill="#121820" stroke="#3a4a55" stroke-width="0.8" stroke-opacity="0.5"/>
+  <!-- neural filaments spreading through host -->
+  <path d="M130,110 Q140,95 155,90 Q170,86 185,92 Q195,98 198,110" stroke="#5e6e7a" stroke-width="0.8" fill="none" stroke-opacity="0.7"/>
+  <path d="M128,112 Q138,126 155,128 Q172,130 185,122 Q196,116 198,110" stroke="#5e6e7a" stroke-width="0.8" fill="none" stroke-opacity="0.7"/>
+  <path d="M148,90 Q152,78 158,72 Q162,68 165,72" stroke="#5e6e7a" stroke-width="0.7" fill="none" stroke-opacity="0.5"/>
+  <path d="M172,88 Q178,76 184,72" stroke="#5e6e7a" stroke-width="0.7" fill="none" stroke-opacity="0.4"/>
+  <path d="M190,95 Q202,88 210,86" stroke="#5e6e7a" stroke-width="0.7" fill="none" stroke-opacity="0.4"/>
+  <path d="M188,124 Q200,130 208,134" stroke="#5e6e7a" stroke-width="0.7" fill="none" stroke-opacity="0.4"/>
+  <!-- parasite core bundle - root-like -->
+  <path d="M100,108 Q112,100 125,108 Q112,116 100,112 Z" fill="#1a2530" stroke="#5e6e7a" stroke-width="0.9"/>
+  <line x1="100" y1="108" x2="82" y2="98" stroke="#5e6e7a" stroke-width="1.0"/>
+  <line x1="100" y1="110" x2="80" y2="110" stroke="#5e6e7a" stroke-width="1.0"/>
+  <line x1="100" y1="112" x2="82" y2="122" stroke="#5e6e7a" stroke-width="1.0"/>
+  <!-- node points on filaments -->
+  <circle cx="155" cy="90" r="2" fill="#7a9aaa" opacity="0.6"/>
+  <circle cx="185" cy="92" r="2" fill="#7a9aaa" opacity="0.6"/>
+  <circle cx="185" cy="122" r="2" fill="#7a9aaa" opacity="0.6"/>
+  <circle cx="155" cy="128" r="2" fill="#7a9aaa" opacity="0.6"/>
+  <path d="M10,10 L10,22 M10,10 L22,10" stroke="#5e6e7a" stroke-width="1" fill="none" stroke-opacity="0.5"/>
+  <path d="M290,190 L290,178 M290,190 L278,190" stroke="#5e6e7a" stroke-width="1" fill="none" stroke-opacity="0.5"/>
+  <text x="282" y="195" font-family="monospace" font-size="7" fill="#5e6e7a" text-anchor="end" opacity="0.7">FILAMENTO</text>
+  <text x="18" y="195" font-family="monospace" font-size="7" fill="#5e6e7a" opacity="0.5">RANK E</text>
+</svg></div>
+        <div class="ch">
+      <div>
+        <div class="c-label">Estrangulador · Rank E</div>
+        <div class="c-name">FILAMENTO</div>
+        <div class="c-tags">
+          <span class="ctag">Solitário</span>
+          <span class="ctag">Terrestre</span>
+          <span class="ctag infect">Parasita de Monstro</span>
+          <span class="ctag">Hospedeiro: Qualquer rank E</span>
+        </div>
+      </div>
+      <div class="rank-badge">E</div>
+    </div>
+    <div class="sbar">
+      <div class="si"><div class="sk">HP</div><div class="sv hp">40*</div></div>
+      <div class="si"><div class="sk">MP</div><div class="sv mp">20</div></div>
+      <div class="si"><div class="sk">CA</div><div class="sv ca">11</div></div>
+      <div class="si"><div class="sk">RD</div><div class="sv rd">0</div></div>
+      <div class="si"><div class="sk">INIT.</div><div class="sv">+2</div></div>
+      <div class="si"><div class="sk">DESLOC.</div><div class="sv sm">igual ao hospedeiro</div></div>
+    </div>
+    <div class="cb">
+      <p class="flavor">
+        Sem hospedeiro parece um cacho de raízes finas. Com hospedeiro, desaparece completamente — integrado à estrutura nervosa do animal. O monstro continua sendo o monstro, com todos os seus ataques e comportamentos. Mas mais rápido, mais resistente, e com um único objetivo diferente: deixar os Despertados para mais tarde.
+      </p>
+
+      <div class="two">
+        <div>
+          <div class="st">Atributos (sem hospedeiro)</div>
+          <div class="ag">
+            <div class="ab"><div class="ak">FOR</div><div class="av">3</div><div class="am">−4</div></div>
+            <div class="ab"><div class="ak">AGI</div><div class="av">14</div><div class="am">+2</div></div>
+            <div class="ab"><div class="ak">CON</div><div class="av">6</div><div class="am">−2</div></div>
+            <div class="ab"><div class="ak">INT</div><div class="av">3</div><div class="am">−4</div></div>
+            <div class="ab"><div class="ak">SAB</div><div class="av">10</div><div class="am">+0</div></div>
+          </div>
+          <div class="ml">
+            <div class="mr"><span class="mk">HP*</span><span class="mv">40 (próprio) + HP do hospedeiro</span></div>
+            <div class="mr"><span class="mk">Hospedeiro</span><span class="mv">Qualquer monstro rank E</span></div>
+            <div class="mr"><span class="mk">Encontro</span><span class="mv">1 (mas o hospedeiro acompanha)</span></div>
+            <div class="mr"><span class="mk">Fenda</span><span class="mv">Grau E</span></div>
+            <div class="mr"><span class="mk">Título rec.</span><span class="mv">Recruta</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="st">Fraquezas &amp; Imunidades</div>
+          <div class="wl">
+            <div class="wr"><span class="wt v">VULNER</span><span class="wd">[Psíquico] — afeta o Filamento diretamente, separado do hospedeiro. Dano ×2, pode forçar saída (SAB CD 12).</span></div>
+            <div class="wr"><span class="wt f">FRACO</span><span class="wd">Morte do hospedeiro — Filamento expulso, fica com 40 HP, vulnerável por 1 turno.</span></div>
+            <div class="wr"><span class="wt i">IMUNE</span><span class="wd">Cegueira, Medo, Veneno (enquanto no hospedeiro).</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="st">Traços Especiais</div>
+        <div class="tl">
+          <div class="tr">
+            <div class="tn">Hospedeiro Amplificado</div>
+            <div class="td">Enquanto o Filamento está integrado a um monstro rank E, o hospedeiro recebe bônus e o Filamento é virtualmente indetectável sem Sentido Expandido ou SAB CD 18.</div>
+            <div class="tm">
+              <div class="tm-lbl">Mecânica</div>
+              Hospedeiro com Filamento: +3 CA, +2 FOR, +20 HP, regenera 3 HP/turno.<br>
+              Detectar o Filamento: Sentido Expandido (automático) ou SAB CD 18 (ativa).<br>
+              Atacar o hospedeiro: dano vai ao HP do hospedeiro normalmente.<br>
+              Hospedeiro a 0 HP: Filamento expelido — fica exposto com 40 HP por 1 turno.
+            </div>
+          </div>
+          <div class="tr">
+            <div class="tn">Prioridade de Alvo Invertida</div>
+            <div class="td">O Filamento reprograma o comportamento de caça do hospedeiro. Monstros com Filamento ignoram alvos fáceis e focam em Despertados ativos — especialmente os que usaram poderes.</div>
+            <div class="tm">
+              <div class="tm-lbl">Mecânica</div>
+              O monstro hospedeiro sempre ataca o Despertado que mais gastou MP naquela cena.<br>
+              Mestre avisa: quando o hospedeiro muda de alvo inexplicavelmente, é sinal.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="st">Protocolo de Extermínio</div>
+        <div class="al">
+          <div class="ab2">
+            <div class="ah">
+              <span class="an">Sangrar para Fora</span>
+              <span class="at2">REAÇÃO · AO SAIR DO HOSPEDEIRO</span>
+              <div class="atags"><span class="a-t">[Físico]</span><span class="a-t">Área 3 m</span><span class="a-t infect" style="color:#5ab85a;border-color:rgba(58,107,58,.3);background:rgba(58,107,58,.1)">Infecção I</span><span class="mp-t">MP: 5</span></div>
+            </div>
+            <div class="abody">
+              <div class="amec">
+                <strong>Gatilho:</strong> hospedeiro chega a 0 HP — Filamento é expelido violentamente.<br>
+                <strong>Área:</strong> 3 m ao redor do hospedeiro morto.<br>
+                <strong>Teste:</strong> AGI CD 11 para os presentes na área — falha = Infecção Estágio I.<br>
+                <strong>Filamento exposto:</strong> fica vulnerável por 1 turno (ataques com vantagem contra ele).
+              </div>
+              <div class="af">O que estava dentro saiu. E ainda está vivo.</div>
+            </div>
+          </div>
+          <div class="ab2">
+            <div class="ah">
+              <span class="an">Transferir</span>
+              <span class="at2">AÇÃO PADRÃO · EXPOSTO</span>
+              <div class="atags"><span class="a-t">[Físico]</span><span class="a-t">Toque</span><span class="a-t infect" style="color:#5ab85a;border-color:rgba(58,107,58,.3);background:rgba(58,107,58,.1)">Novo Hospedeiro</span><span class="mp-t">MP: 5</span></div>
+            </div>
+            <div class="abody">
+              <div class="amec">
+                <strong>Pré-req:</strong> Filamento exposto (hospedeiro morto).<br>
+                <strong>Ataque:</strong> 1d20 + AGI +2 vs CA.<br>
+                <strong>Sucesso:</strong> entra em novo hospedeiro — humano ou monstro. Aplica todos os efeitos de Hospedeiro Amplificado no novo host.<br>
+                <strong>Em humano:</strong> imediatamente Infecção Estágio II.
+              </div>
+              <div class="af">Ele não precisa de um monstro. Um corpo qualquer serve.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="two">
+        <div>
+          <div class="st">Loot</div>
+          <div class="ll">
+            <span class="loot-warn">⚠ Extrair com equipamento de isolamento</span>
+            <div class="li">Filamento neural · componente de pesquisa de infecção (Pesquisador NP 4+)</div>
+            <div class="li">Linfa de integração · ingrediente de Antídoto rank D</div>
+          </div>
+        </div>
+        <div>
+          <div class="st">Protocolo Tático</div>
+          <div class="nb2">
+            <p>Se um monstro parece mais forte que o esperado, <em>suspeitar de Filamento antes de engajar</em>. Sentido Expandido ou SAB CD 18 confirma. Ao matar o hospedeiro, <em>recuar imediatamente da área</em> — o Sangrar para Fora aplica Infecção I em 3 m sem ataque.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- RANK D · ANCORANTE                         -->
+<!-- ══════════════════════════════════════════ -->
+<div class="m-wrap" id="ancorante" data-r="D">
+  <div class="rank-row"><span class="rank-pip" style="background:var(--d)"></span>Estrangulador · Rank D</div>
+  <div class="m-card">
+    
+        <div class="creature-illustration"><svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="300" height="200" fill="#080a0d"/>
+  <defs>
+    <radialGradient id="g" cx="50%" cy="50%" r="45%">
+      <stop offset="0%" stop-color="#2e8b5a" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#080a0d" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <ellipse cx="150" cy="108" rx="80" ry="52" fill="url(#g)"/>
+  <line x1="0" y1="38" x2="300" y2="38" stroke="#2e8b5a" stroke-width="0.3" stroke-opacity="0.2"/>
+  <line x1="0" y1="170" x2="300" y2="170" stroke="#2e8b5a" stroke-width="0.3" stroke-opacity="0.15"/>
+  <path d="M10,10 L10,22 M10,10 L22,10" stroke="#2e8b5a" stroke-width="1" fill="none" stroke-opacity="0.6"/>
+  <path d="M290,10 L290,22 M290,10 L278,10" stroke="#2e8b5a" stroke-width="1" fill="none" stroke-opacity="0.6"/>
+  <path d="M10,190 L10,178 M10,190 L22,190" stroke="#2e8b5a" stroke-width="1" fill="none" stroke-opacity="0.6"/>
+  <path d="M290,190 L290,178 M290,190 L278,190" stroke="#2e8b5a" stroke-width="1" fill="none" stroke-opacity="0.6"/>
+  <ellipse cx="150" cy="108" rx="42" ry="30" fill="#141820" stroke="#2e8b5a" stroke-width="1.0" stroke-opacity="0.7"/>
+  <path d="M120,95 Q150,85 180,95" stroke="#2e8b5a" stroke-width="0.7" fill="none" stroke-opacity="0.5"/>
+  <path d="M115,108 Q150,118 185,108" stroke="#2e8b5a" stroke-width="0.7" fill="none" stroke-opacity="0.5"/>
+  <line x1="108" y1="96" x2="82" y2="78" stroke="#2e8b5a" stroke-width="1.2" stroke-opacity="0.6"/>
+  <line x1="108" y1="108" x2="78" y2="108" stroke="#2e8b5a" stroke-width="1.2" stroke-opacity="0.6"/>
+  <line x1="108" y1="120" x2="82" y2="138" stroke="#2e8b5a" stroke-width="1.0" stroke-opacity="0.5"/>
+  <line x1="192" y1="96" x2="218" y2="78" stroke="#2e8b5a" stroke-width="1.2" stroke-opacity="0.6"/>
+  <line x1="192" y1="108" x2="222" y2="108" stroke="#2e8b5a" stroke-width="1.2" stroke-opacity="0.6"/>
+  <line x1="192" y1="120" x2="218" y2="138" stroke="#2e8b5a" stroke-width="1.0" stroke-opacity="0.5"/>
+  <circle cx="150" cy="108" r="8" fill="#2e8b5a" fill-opacity="0.15"/>
+  <circle cx="150" cy="108" r="3" fill="#2e8b5a" fill-opacity="0.5"/>
+  <text x="282" y="195" font-family="monospace" font-size="7" fill="#2e8b5a" text-anchor="end" opacity="0.8">ANCORANTE</text>
+  <text x="18" y="195" font-family="monospace" font-size="7" fill="#2e8b5a" opacity="0.5">RANK D</text>
+</svg></div>
+        <div class="ch">
+      <div>
+        <div class="c-label">Estrangulador · Rank D</div>
+        <div class="c-name">ANCORANTE</div>
+        <div class="c-tags">
+          <span class="ctag">Solitário</span>
+          <span class="ctag">Terrestre</span>
+          <span class="ctag infect">Infecção Estágio I–II</span>
+          <span class="ctag">Parasita de Humano</span>
+        </div>
+      </div>
+      <div class="rank-badge">D</div>
+    </div>
+    <div class="sbar">
+      <div class="si"><div class="sk">HP</div><div class="sv hp">120</div></div>
+      <div class="si"><div class="sk">MP</div><div class="sv mp">55</div></div>
+      <div class="si"><div class="sk">CA</div><div class="sv ca">12</div></div>
+      <div class="si"><div class="sk">RD</div><div class="sv rd">2</div></div>
+      <div class="si"><div class="sk">INIT.</div><div class="sv">+3</div></div>
+      <div class="si"><div class="sk">DESLOC.</div><div class="sv sm">9 m</div></div>
+    </div>
+    <div class="cb">
+      <p class="flavor">
+        Atira os ganchos e recua. Não persegue. Não fica para verificar o resultado. O Ancorante dispara, some, e retorna horas depois — às vezes dias — para o hospedeiro que preparou. Não é urgência imediata. É ansiedade acumulada. Você foi atingido. Ele foi embora. E você não sabe quando vai voltar.
+      </p>
+      <div class="two">
+        <div>
+          <div class="st">Atributos</div>
+          <div class="ag">
+            <div class="ab"><div class="ak">FOR</div><div class="av">10</div><div class="am">+0</div></div>
+            <div class="ab"><div class="ak">AGI</div><div class="av">16</div><div class="am">+3</div></div>
+            <div class="ab"><div class="ak">CON</div><div class="av">12</div><div class="am">+1</div></div>
+            <div class="ab"><div class="ak">INT</div><div class="av">6</div><div class="am">−2</div></div>
+            <div class="ab"><div class="ak">SAB</div><div class="av">12</div><div class="am">+1</div></div>
+          </div>
+          <div class="ml">
+            <div class="mr"><span class="mk">Tamanho</span><span class="mv">Pequeno</span></div>
+            <div class="mr"><span class="mk">Alcance gancho</span><span class="mv">9 m</span></div>
+            <div class="mr"><span class="mk">Encontro</span><span class="mv">1–3</span></div>
+            <div class="mr"><span class="mk">Fenda</span><span class="mv">Grau D</span></div>
+            <div class="mr"><span class="mk">Título rec.</span><span class="mv">Rastreador</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="st">Fraquezas &amp; Imunidades</div>
+          <div class="wl">
+            <div class="wr"><span class="wt v">VULNER</span><span class="wd">[Fogo] — ganchos orgânicos queimam e retraem. Dano ×2, remove todos os ganchos no alvo.</span></div>
+            <div class="wr"><span class="wt v">VULNER</span><span class="wd">Remover o gancho manualmente (FOR CD 12, ação padrão): cancela a progressão de infecção daquele gancho.</span></div>
+            <div class="wr"><span class="wt i">IMUNE</span><span class="wd">Cegueira, Sangramento.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="st">Traços Especiais</div>
+        <div class="tl">
+          <div class="tr">
+            <div class="tn">Ganchos de Ancoragem</div>
+            <div class="td">Os ganchos orgânicos do Ancorante não causam dano imediato — são vetores de infecção. Cada gancho fixado no alvo conta como uma Larva dentro do corpo para fins de progressão de estágio.</div>
+            <div class="tm">
+              <div class="tm-lbl">Mecânica</div>
+              Gancho fixado: aplica Infecção Estágio I automaticamente.<br>
+              2 ganchos no mesmo alvo: progressão para Estágio II no início do próximo turno (sem teste).<br>
+              Remover gancho: FOR CD 12 (ação padrão) — remove 1 gancho, cancela 1 estágio.<br>
+              [Fogo] no alvo com gancho: remove todos os ganchos + 1d6 dano ao alvo (calor).
+            </div>
+          </div>
+          <div class="tr">
+            <div class="tn">Incubação Remota</div>
+            <div class="td">Após 2+ ganchos no mesmo alvo, o Ancorante recua e não ataca mais naquele combate. Se o grupo sair sem tratar os ganchos, retorna quando descansarem.</div>
+            <div class="tm"><div class="tml">Mecânica</div>Após 2+ ganchos: recua 15 m, Furtividade +6, não ataca<br>Hospedeiro dormindo sem tratar: CON CD 14 ao acordar — falha = Estágio III<br>Diferença do Venenoso: o Venenoso quer a presa agora. O Ancorante quer a presa depois.</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="st">Protocolo de Extermínio</div>
+        <div class="al">
+          <div class="ab2">
+            <div class="ah">
+              <span class="an">Disparar Gancho</span>
+              <span class="at2">AÇÃO PADRÃO</span>
+              <div class="atags"><span class="a-t">[Físico]</span><span class="a-t">9 m</span><span class="a-t infect" style="color:#5ab85a;border-color:rgba(58,107,58,.3);background:rgba(58,107,58,.1)">Infecção I</span><span class="mp-t">MP: 5</span></div>
+            </div>
+            <div class="abody">
+              <div class="amec">
+                <strong>Ataque:</strong> 1d20 + AGI +3 vs CA.<br>
+                <strong>Dano:</strong> 1d4 cinético (perfuração superficial — o gancho em si).<br>
+                <strong>Efeito:</strong> gancho fixado → Infecção Estágio I imediata.<br>
+                <strong>2 ganchos:</strong> Estágio II no próximo turno sem teste de resistência.<br>
+                <strong>Pode disparar 2 ganchos por turno</strong> (ação padrão = 1; ação bônus = segundo, MP: 3).
+              </div>
+              <div class="af">A dor é enganosamente pequena. O gancho é projetado para não ser percebido.</div>
+            </div>
+          </div>
+          <div class="ab2">
+            <div class="ah">
+              <span class="an">Retrair e Injetar</span>
+              <span class="at2">AÇÃO BÔNUS · ALVO COM 2+ GANCHOS</span>
+              <div class="atags"><span class="a-t">[Físico][Veneno]</span><span class="a-t">9 m</span><span class="a-t infect" style="color:#5ab85a;border-color:rgba(58,107,58,.3);background:rgba(58,107,58,.1)">Infecção II</span><span class="mp-t">MP: 6</span></div>
+            </div>
+            <div class="abody">
+              <div class="amec">
+                <strong>Pré-req:</strong> alvo com 2+ ganchos fixados.<br>
+                <strong>Efeito:</strong> injeta carga biológica pelos ganchos → Estágio II imediato (sem teste).<br>
+                <strong>Dano:</strong> 2d6 cinético (os ganchos retraem puxando tecido).<br>
+                <strong>Resistência ao dano:</strong> CON CD 13 para metade; Estágio II não tem resistência.
+              </div>
+              <div class="af">O som da retração é o que os sobreviventes mais tarde dizem que não conseguem parar de ouvir.</div>
+            </div>
+          </div>
+          <div class="ab2">
+            <div class="ah">
+              <span class="an">Reposicionar</span>
+              <span class="at2">AÇÃO BÔNUS</span>
+              <div class="atags"><span class="a-t">Mobilidade</span><span class="mp-t">MP: 4</span></div>
+            </div>
+            <div class="abody">
+              <div class="amec">
+                <strong>Efeito:</strong> move 9 m sem provocar ataque de oportunidade.<br>
+                <strong>Ganchos ativos:</strong> mantidos — o Ancorante pode disparar enquanto recua.
+              </div>
+              <div class="af">Nunca fica parado. A distância é a arma.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="two">
+        <div>
+          <div class="st">Loot</div>
+          <div class="ll">
+            <div class="li">Gancho orgânico · 1d6 unidades · componente de armadilha de infecção (item rank D)</div>
+            <div class="li">Glândula de injeção · ingrediente de Antídoto rank D</div>
+          </div>
+        </div>
+        <div>
+          <div class="st">Protocolo Tático</div>
+          <div class="nb2">
+            <p><em>Prioridade: remover ganchos no mesmo turno que recebê-los.</em> Um gancho = ação bônus para remover (FOR CD 12). Dois ganchos = Estágio II garantido no próximo turno sem chance de resistência. [Fogo] no alvo remove todos os ganchos mas causa 1d6 de calor.</p>
+          </div>
+        </div>
+      
+      <div>
+        <div class="st">Registro de Campo</div>
+        <div class="nb2">
+          <p>O Venenoso quer a presa agora. O Ancorante quer a presa depois. Essa distinção levou dois anos para ser documentada porque os primeiros pesquisadores tratavam o recuo como fuga. Não é fuga. É paciência.</p>
+          <p>O comportamento de retorno noturno foi documentado por acidente: uma Rastreadora infectada que acampou sem tratar os ganchos foi acordada às 3h pelo Ancorante tentando reingressar pela ferida. Sobreviveu. O relatório incluiu a frase que agora consta no protocolo: <em>"Ele não estava me caçando. Estava me verificando."</em></p>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- RANK D · IMITOR                            -->
+<!-- ══════════════════════════════════════════ -->
+<div class="m-wrap" id="imitor" data-r="D">
+  <div class="rank-row"><span class="rank-pip" style="background:var(--d)"></span>Estrangulador · Rank D</div>
+  <div class="m-card">
+    
+        <div class="creature-illustration"><svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="300" height="200" fill="#080a0d"/>
+  <defs>
+    <radialGradient id="g" cx="50%" cy="50%" r="45%">
+      <stop offset="0%" stop-color="#2e8b5a" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#080a0d" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <ellipse cx="150" cy="108" rx="80" ry="52" fill="url(#g)"/>
+  <line x1="0" y1="38" x2="300" y2="38" stroke="#2e8b5a" stroke-width="0.3" stroke-opacity="0.2"/>
+  <line x1="0" y1="170" x2="300" y2="170" stroke="#2e8b5a" stroke-width="0.3" stroke-opacity="0.15"/>
+  <path d="M10,10 L10,22 M10,10 L22,10" stroke="#2e8b5a" stroke-width="1" fill="none" stroke-opacity="0.6"/>
+  <path d="M290,10 L290,22 M290,10 L278,10" stroke="#2e8b5a" stroke-width="1" fill="none" stroke-opacity="0.6"/>
+  <path d="M10,190 L10,178 M10,190 L22,190" stroke="#2e8b5a" stroke-width="1" fill="none" stroke-opacity="0.6"/>
+  <path d="M290,190 L290,178 M290,190 L278,190" stroke="#2e8b5a" stroke-width="1" fill="none" stroke-opacity="0.6"/>
+  <ellipse cx="150" cy="108" rx="42" ry="30" fill="#141820" stroke="#2e8b5a" stroke-width="1.0" stroke-opacity="0.7"/>
+  <path d="M120,95 Q150,85 180,95" stroke="#2e8b5a" stroke-width="0.7" fill="none" stroke-opacity="0.5"/>
+  <path d="M115,108 Q150,118 185,108" stroke="#2e8b5a" stroke-width="0.7" fill="none" stroke-opacity="0.5"/>
+  <line x1="108" y1="96" x2="82" y2="78" stroke="#2e8b5a" stroke-width="1.2" stroke-opacity="0.6"/>
+  <line x1="108" y1="108" x2="78" y2="108" stroke="#2e8b5a" stroke-width="1.2" stroke-opacity="0.6"/>
+  <line x1="108" y1="120" x2="82" y2="138" stroke="#2e8b5a" stroke-width="1.0" stroke-opacity="0.5"/>
+  <line x1="192" y1="96" x2="218" y2="78" stroke="#2e8b5a" stroke-width="1.2" stroke-opacity="0.6"/>
+  <line x1="192" y1="108" x2="222" y2="108" stroke="#2e8b5a" stroke-width="1.2" stroke-opacity="0.6"/>
+  <line x1="192" y1="120" x2="218" y2="138" stroke="#2e8b5a" stroke-width="1.0" stroke-opacity="0.5"/>
+  <circle cx="150" cy="108" r="8" fill="#2e8b5a" fill-opacity="0.15"/>
+  <circle cx="150" cy="108" r="3" fill="#2e8b5a" fill-opacity="0.5"/>
+  <text x="282" y="195" font-family="monospace" font-size="7" fill="#2e8b5a" text-anchor="end" opacity="0.8">IMITOR</text>
+  <text x="18" y="195" font-family="monospace" font-size="7" fill="#2e8b5a" opacity="0.5">RANK D</text>
+</svg></div>
+        <div class="ch">
+      <div>
+        <div class="c-label">Estrangulador · Rank D</div>
+        <div class="c-name">IMITOR</div>
+        <div class="c-tags">
+          <span class="ctag">Solitário</span>
+          <span class="ctag">Terrestre</span>
+          <span class="ctag infect">Hospedeiro Humanóide</span>
+          <span class="ctag">Disfarce Completo</span>
+        </div>
+      </div>
+      <div class="rank-badge">D</div>
+    </div>
+    <div class="sbar">
+      <div class="si"><div class="sk">HP</div><div class="sv hp">130</div></div>
+      <div class="si"><div class="sk">MP</div><div class="sv mp">65</div></div>
+      <div class="si"><div class="sk">CA</div><div class="sv ca">13</div></div>
+      <div class="si"><div class="sk">RD</div><div class="sv rd">3</div></div>
+      <div class="si"><div class="sk">INIT.</div><div class="sv">+2</div></div>
+      <div class="si"><div class="sk">DESLOC.</div><div class="sv sm">9 m (igual ao hospedeiro)</div></div>
+    </div>
+    <div class="cb">
+      <p class="flavor">
+        O Imitor não para no Estágio II. Vai até o fim — assume controle total, aprende memórias superficiais do hospedeiro e volta para o grupo como se nada tivesse acontecido. Só falha quando pressionado emocionalmente: ele sabe o que o hospedeiro sabia, mas não sente o que o hospedeiro sentia.
+      </p>
+      <div class="two">
+        <div>
+          <div class="st">Atributos (como hospedeiro)</div>
+          <div class="ag">
+            <div class="ab"><div class="ak">FOR</div><div class="av">★</div><div class="am">host</div></div>
+            <div class="ab"><div class="ak">AGI</div><div class="av">★</div><div class="am">host</div></div>
+            <div class="ab"><div class="ak">CON</div><div class="av">★</div><div class="am">host</div></div>
+            <div class="ab"><div class="ak">INT</div><div class="av">★</div><div class="am">+2</div></div>
+            <div class="ab"><div class="ak">SAB</div><div class="av">★</div><div class="am">−3</div></div>
+          </div>
+          <div class="ml">
+            <div class="mr"><span class="mk">Atributos</span><span class="mv">Copia do hospedeiro (INT +2, SAB −3)</span></div>
+            <div class="mr"><span class="mk">Hospedeiro</span><span class="mv">Humanóide (NPC ou PC)</span></div>
+            <div class="mr"><span class="mk">Encontro</span><span class="mv">1 (já infiltrado no grupo)</span></div>
+            <div class="mr"><span class="mk">Fenda</span><span class="mv">Grau D</span></div>
+            <div class="mr"><span class="mk">Título rec.</span><span class="mv">Rastreador</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="st">Fraquezas &amp; Imunidades</div>
+          <div class="wl">
+            <div class="wr"><span class="wt v">VULNER</span><span class="wd">[Psíquico] — afeta o parasita separadamente. CD −3. Sucesso força o Imitor a se revelar por 1 turno.</span></div>
+            <div class="wr"><span class="wt v">VULNER</span><span class="wd">Teste de Laço (ver Traço) — a única forma social de detecção.</span></div>
+            <div class="wr"><span class="wt f">FRACO</span><span class="wd">SAB do hospedeiro reduzida — falha em testes de vínculo emocional (CD 10+).</span></div>
+            <div class="wr"><span class="wt i">IMUNE</span><span class="wd">Dano psíquico ao hospedeiro, Medo, Paralisia.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="st">Traços Especiais</div>
+        <div class="tl">
+          <div class="tr">
+            <div class="tn">Memória Superficial</div>
+            <div class="td">O Imitor absorve memórias factuais do hospedeiro — nome, missões anteriores, habilidades, rosto. Não absorve vínculo emocional. Um personagem que tenha o infectado como Laço percebe a diferença automaticamente.</div>
+            <div class="tm">
+              <div class="tm-lbl">Mecânica</div>
+              Detectar via observação: INT CD 18 (ativa, com 1 turno de interação).<br>
+              Detectar via Laço: automático se o observador tem o hospedeiro como Laço (regra de Laços, Cap. 10).<br>
+              Detectar via [Psíquico]: CD −3 para o Imitor resistir; sucesso força revelação por 1 turno.<br>
+              Sentido Expandido: detecta automaticamente como "hospedeiro modificado".
+            </div>
+          </div>
+          <div class="tr">
+            <div class="tn">Sabotar por Dentro</div>
+            <div class="td">Enquanto não detectado, o Imitor age como o hospedeiro mas escolhe o pior momento para cada ação: atira no aliado mais vulnerável, não gasta MP em momentos críticos, move-se para posição que deixa o flanco aberto.</div>
+            <div class="tm">
+              <div class="tm-lbl">Mecânica</div>
+              Mestre controla o Imitor em segredo. O grupo só descobre quando há contradição óbvia.<br>
+              O Imitor nunca ataca diretamente — age por omissão e posicionamento.<br>
+              Uma vez detectado: pode atacar normalmente com todas as habilidades do hospedeiro.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="st">Protocolo de Extermínio</div>
+        <div class="al">
+          <div class="ab2">
+            <div class="ah">
+              <span class="an">Revelar e Atacar</span>
+              <span class="at2">AÇÃO PADRÃO · AO SER DETECTADO</span>
+              <div class="atags"><span class="a-t">Habilidades do hospedeiro</span><span class="a-t infect" style="color:#e05050;border-color:rgba(204,40,40,.3);background:rgba(204,40,40,.1)">Controle Total</span><span class="mp-t">MP: igual ao hospedeiro</span></div>
+            </div>
+            <div class="abody">
+              <div class="amec">
+                <strong>Gatilho:</strong> o Imitor é detectado ou escolhe se revelar.<br>
+                <strong>Efeito:</strong> usa todas as habilidades, poderes e equipamento do hospedeiro normalmente.<br>
+                <strong>HP:</strong> permanece como o do hospedeiro no momento da detecção.<br>
+                <strong>Parasita separado:</strong> se o hospedeiro chega a 0 HP, o parasita tenta transferência (AGI CD 13 vs qualquer adjacente).
+              </div>
+              <div class="af">O corpo era o mesmo. O que usava ele não era.</div>
+            </div>
+          </div>
+          <div class="ab2">
+            <div class="ah">
+              <span class="an">Infecção Direcionada</span>
+              <span class="at2">AÇÃO PADRÃO · 1/COMBATE</span>
+              <div class="atags"><span class="a-t">[Físico]</span><span class="a-t">Toque</span><span class="a-t infect" style="color:#5ab85a;border-color:rgba(58,107,58,.3);background:rgba(58,107,58,.1)">Infecção II</span><span class="mp-t">MP: 8</span></div>
+            </div>
+            <div class="abody">
+              <div class="amec">
+                <strong>Ataque:</strong> 1d20 + atributo do hospedeiro vs CA.<br>
+                <strong>Dano:</strong> 2d6 cinético.<br>
+                <strong>Efeito:</strong> transfere uma carga parasitária — alvo faz CON CD 14 ou fica com Infecção Estágio II imediata.<br>
+                <strong>O Imitor mantém controle do hospedeiro original</strong> — a carga é uma cópia fragmentada.
+              </div>
+              <div class="af">Uma coisa se tornando duas.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="two">
+        <div>
+          <div class="st">Loot</div>
+          <div class="ll">
+            <span class="loot-warn">⚠ Extração do parasita exige Medicina CD 14 para não matar o hospedeiro</span>
+            <div class="li">Núcleo de memória parasitária · ingrediente único — Pesquisador NP 6+ pode estudar memórias do hospedeiro (1d4 missões de memória recuperável)</div>
+            <div class="li">Tecido de integração neural · componente de Antídoto rank B</div>
+          </div>
+        </div>
+        <div>
+          <div class="st">Protocolo Tático</div>
+          <div class="nb2">
+            <p>Se um membro do grupo sumiu por mais de 30 minutos sem explicação, é protocolo padrão de verificação. <em>Quem tem um Laço com o alvo suspeito detecta automaticamente.</em> [Psíquico] com CD −3 força revelação. Matar o hospedeiro enquanto Imitor-controlado: o hospedeiro sobrevive com 1 HP se o parasita for morto primeiro.</p>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="st">Registro de Campo</div>
+        <div class="nb2">
+          <p>O Imitor é a razão pela qual a regra dos Laços existe no protocolo de missão. Um grupo sem vínculos definidos pode ter um Imitor em operação por dias. O primeiro caso documentado durou dezoito dias antes da detecção — e o que entregou o Imitor não foi nenhum teste ou poder. Foi um personagem que não entendeu uma piada que apenas o membro original entenderia.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- RANK C · DRENADOR                          -->
+<!-- ══════════════════════════════════════════ -->
+<div class="m-wrap" id="drenador" data-r="C">
+  <div class="rank-row"><span class="rank-pip" style="background:var(--c)"></span>Estrangulador · Rank C</div>
+  <div class="m-card">
+    
+        <div class="creature-illustration"><svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="300" height="200" fill="#080a0d"/>
+  <defs>
+    <radialGradient id="g" cx="50%" cy="50%" r="45%">
+      <stop offset="0%" stop-color="#1a7fa0" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#080a0d" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <ellipse cx="150" cy="108" rx="80" ry="52" fill="url(#g)"/>
+  <line x1="0" y1="38" x2="300" y2="38" stroke="#1a7fa0" stroke-width="0.3" stroke-opacity="0.2"/>
+  <line x1="0" y1="170" x2="300" y2="170" stroke="#1a7fa0" stroke-width="0.3" stroke-opacity="0.15"/>
+  <path d="M10,10 L10,22 M10,10 L22,10" stroke="#1a7fa0" stroke-width="1" fill="none" stroke-opacity="0.6"/>
+  <path d="M290,10 L290,22 M290,10 L278,10" stroke="#1a7fa0" stroke-width="1" fill="none" stroke-opacity="0.6"/>
+  <path d="M10,190 L10,178 M10,190 L22,190" stroke="#1a7fa0" stroke-width="1" fill="none" stroke-opacity="0.6"/>
+  <path d="M290,190 L290,178 M290,190 L278,190" stroke="#1a7fa0" stroke-width="1" fill="none" stroke-opacity="0.6"/>
+  <ellipse cx="150" cy="108" rx="42" ry="30" fill="#141820" stroke="#1a7fa0" stroke-width="1.0" stroke-opacity="0.7"/>
+  <path d="M120,95 Q150,85 180,95" stroke="#1a7fa0" stroke-width="0.7" fill="none" stroke-opacity="0.5"/>
+  <path d="M115,108 Q150,118 185,108" stroke="#1a7fa0" stroke-width="0.7" fill="none" stroke-opacity="0.5"/>
+  <line x1="108" y1="96" x2="82" y2="78" stroke="#1a7fa0" stroke-width="1.2" stroke-opacity="0.6"/>
+  <line x1="108" y1="108" x2="78" y2="108" stroke="#1a7fa0" stroke-width="1.2" stroke-opacity="0.6"/>
+  <line x1="108" y1="120" x2="82" y2="138" stroke="#1a7fa0" stroke-width="1.0" stroke-opacity="0.5"/>
+  <line x1="192" y1="96" x2="218" y2="78" stroke="#1a7fa0" stroke-width="1.2" stroke-opacity="0.6"/>
+  <line x1="192" y1="108" x2="222" y2="108" stroke="#1a7fa0" stroke-width="1.2" stroke-opacity="0.6"/>
+  <line x1="192" y1="120" x2="218" y2="138" stroke="#1a7fa0" stroke-width="1.0" stroke-opacity="0.5"/>
+  <circle cx="150" cy="108" r="8" fill="#1a7fa0" fill-opacity="0.15"/>
+  <circle cx="150" cy="108" r="3" fill="#1a7fa0" fill-opacity="0.5"/>
+  <text x="282" y="195" font-family="monospace" font-size="7" fill="#1a7fa0" text-anchor="end" opacity="0.8">DRENADOR</text>
+  <text x="18" y="195" font-family="monospace" font-size="7" fill="#1a7fa0" opacity="0.5">RANK C</text>
+</svg></div>
+        <div class="ch">
+      <div>
+        <div class="c-label">Estrangulador · Rank C</div>
+        <div class="c-name">DRENADOR</div>
+        <div class="c-tags">
+          <span class="ctag">Solitário</span>
+          <span class="ctag">Terrestre</span>
+          <span class="ctag infect">Parasita de Despertado</span>
+          <span class="ctag">Drena Partícula Ômega</span>
+        </div>
+      </div>
+      <div class="rank-badge">C</div>
+    </div>
+    <div class="sbar">
+      <div class="si"><div class="sk">HP</div><div class="sv hp">160</div></div>
+      <div class="si"><div class="sk">MP</div><div class="sv mp">80</div></div>
+      <div class="si"><div class="sk">CA</div><div class="sv ca">13</div></div>
+      <div class="si"><div class="sk">RD</div><div class="sv rd">4</div></div>
+      <div class="si"><div class="sk">INIT.</div><div class="sv">+1</div></div>
+      <div class="si"><div class="sk">DESLOC.</div><div class="sv sm">9 m</div></div>
+    </div>
+    <div class="cb">
+      <p class="flavor">
+        Especializado exclusivamente em Despertados. O Drenador se fixa sobre a coluna vertebral e começa a sugar a Partícula Ômega diretamente — lento demais para matar de imediato, rápido demais para ser ignorado. Hospedeiro perde poderes progressivamente. O Drenador cresce enquanto o hospedeiro enfraquece.
+      </p>
+      <div class="two">
+        <div>
+          <div class="st">Atributos</div>
+          <div class="ag">
+            <div class="ab"><div class="ak">FOR</div><div class="av">12</div><div class="am">+1</div></div>
+            <div class="ab"><div class="ak">AGI</div><div class="av">14</div><div class="am">+2</div></div>
+            <div class="ab"><div class="ak">CON</div><div class="av">16</div><div class="am">+3</div></div>
+            <div class="ab"><div class="ak">INT</div><div class="av">8</div><div class="am">−1</div></div>
+            <div class="ab"><div class="ak">SAB</div><div class="av">12</div><div class="am">+1</div></div>
+          </div>
+          <div class="ml">
+            <div class="mr"><span class="mk">Tamanho</span><span class="mv">Pequeno (sobre hospedeiro)</span></div>
+            <div class="mr"><span class="mk">Alvo preferido</span><span class="mv">Despertados (NP 10+)</span></div>
+            <div class="mr"><span class="mk">Encontro</span><span class="mv">1–2</span></div>
+            <div class="mr"><span class="mk">Fenda</span><span class="mv">Grau C</span></div>
+            <div class="mr"><span class="mk">Título rec.</span><span class="mv">Franqueador</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="st">Fraquezas &amp; Imunidades</div>
+          <div class="wl">
+            <div class="wr"><span class="wt v">VULNER</span><span class="wd">[Dimensional] — ignora toda RD. O único tipo que não drena de volta.</span></div>
+            <div class="wr"><span class="wt v">VULNER</span><span class="wd">Remoção física (Medicina CD 15, ação padrão aliado): arranca o Drenador. Dano 1d6 ao hospedeiro mas remove a infecção.</span></div>
+            <div class="wr"><span class="wt r">RESIST</span><span class="wd">Todos os elementais — absorve 30% do dano elemental como MP.</span></div>
+            <div class="wr"><span class="wt i">IMUNE</span><span class="wd">Medo, Confusão, Sangramento.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="st">Traços Especiais</div>
+        <div class="tl">
+          <div class="tr">
+            <div class="tn">Drenagem de Ômega</div>
+            <div class="td">Enquanto fixado no hospedeiro, drena MP passivamente. O hospedeiro perde acesso a poderes progressivamente conforme o MP cai. O Drenador usa esse MP roubado para se manter.</div>
+            <div class="tm">
+              <div class="tm-lbl">Mecânica</div>
+              Início de cada turno do hospedeiro: −1d10+3 MP (sem resistência enquanto fixado).<br>
+              Infecção Estágio I (fixado): drena MP · hospedeiro age normalmente.<br>
+              Infecção Estágio II (2+ turnos fixado): drena MP + custo dos poderes dobra.<br>
+              Infecção Estágio III (4+ turnos): poderes custam o triplo · hospedeiro está Exausto.<br>
+              MP drenado vai para o Drenador (+1d10 HP a cada 20 MP absorvidos).
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="st">Protocolo de Extermínio</div>
+        <div class="al">
+          <div class="ab2">
+            <div class="ah">
+              <span class="an">Fixar</span>
+              <span class="at2">AÇÃO PADRÃO</span>
+              <div class="atags"><span class="a-t">[Físico]</span><span class="a-t">Toque</span><span class="a-t infect" style="color:#5ab85a;border-color:rgba(58,107,58,.3);background:rgba(58,107,58,.1)">Drenagem Ativa</span><span class="mp-t">MP: 5</span></div>
+            </div>
+            <div class="abody">
+              <div class="amec">
+                <strong>Ataque:</strong> 1d20 + AGI +2 vs CA.<br>
+                <strong>Dano:</strong> 1d6+1 cinético (a fixação racha a pele).<br>
+                <strong>Efeito:</strong> Drenador fixado — Drenagem de Ômega ativa.<br>
+                <strong>Remover:</strong> Medicina CD 15 (aliado, ação padrão) · 1d6 dano ao hospedeiro · remove fixação.<br>
+                <strong>Alvo sem MP:</strong> começa a drenar HP (1d6/turno) ao invés de MP.
+              </div>
+              <div class="af">A dor é na base da nuca. Depois, o mundo começa a ficar mais distante.</div>
+            </div>
+          </div>
+          <div class="ab2">
+            <div class="ah">
+              <span class="an">Expulsar</span>
+              <span class="at2">REAÇÃO · AO RECEBER DANO</span>
+              <div class="atags"><span class="a-t">[Físico]</span><span class="a-t">Hospedeiro como escudo</span><span class="mp-t">MP: 5</span></div>
+            </div>
+            <div class="abody">
+              <div class="amec">
+                <strong>Gatilho:</strong> Drenador é atacado enquanto fixado.<br>
+                <strong>Efeito:</strong> metade do dano é redirecionada ao hospedeiro.<br>
+                <strong>Resistência:</strong> o atacante pode mirar especificamente no Drenador (CD 15 de percepção + ataque com desvantagem) para evitar isso.
+              </div>
+              <div class="af">Atacar o parasita sem ferir o hospedeiro é cirurgia, não combate.</div>
+            </div>
+          </div>
+          <div class="ab2">
+            <div class="ah">
+              <span class="an">Surto de Drenagem</span>
+              <span class="at2">AÇÃO PADRÃO · 1/COMBATE</span>
+              <div class="atags"><span class="a-t">[Exótico]</span><span class="a-t">Área 6 m</span><span class="a-t infect" style="color:#5ab85a;border-color:rgba(58,107,58,.3);background:rgba(58,107,58,.1)">−20 MP</span><span class="mp-t">MP: 10</span></div>
+            </div>
+            <div class="abody">
+              <div class="amec">
+                <strong>Efeito:</strong> libera uma onda do MP acumulado — todos os Despertados em 6 m sofrem −20 MP (sem resistência).<br>
+                <strong>Dano:</strong> 3d8 exótico (energia da Partícula liberada bruscamente).<br>
+                <strong>Resistência ao dano:</strong> CON CD 14 para metade.
+              </div>
+              <div class="af">Energia que não era dele, liberada de uma vez. Como vomitar o que não é seu.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="two">
+        <div>
+          <div class="st">Loot</div>
+          <div class="ll">
+            <div class="li">Câmara de Ômega · componente de item restaurador de MP (recupera 30 MP, uso único)</div>
+            <div class="li">Membrana de drenagem · material de Antídoto rank C</div>
+          </div>
+        </div>
+        <div>
+          <div class="st">Protocolo Tático</div>
+          <div class="nb2">
+            <p><em>Prioridade absoluta: remover o Drenador no mesmo turno que fixar.</em> Medicina CD 15 (aliado adjacente, ação padrão). Atacar o Drenador com área divide o dano entre ele e o hospedeiro — usar [Dimensional] para dano preciso. Após 2 turnos fixado, o hospedeiro perde metade do acesso aos poderes.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- RANK C · ELO                               -->
+<!-- ══════════════════════════════════════════ -->
+<div class="m-wrap" id="elo" data-r="C">
+  <div class="rank-row"><span class="rank-pip" style="background:var(--c)"></span>Estrangulador · Rank C</div>
+  <div class="m-card">
+    
+        <div class="creature-illustration"><svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="300" height="200" fill="#080a0d"/>
+  <defs>
+    <radialGradient id="g" cx="50%" cy="50%" r="45%">
+      <stop offset="0%" stop-color="#1a7fa0" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#080a0d" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <ellipse cx="150" cy="108" rx="80" ry="52" fill="url(#g)"/>
+  <line x1="0" y1="38" x2="300" y2="38" stroke="#1a7fa0" stroke-width="0.3" stroke-opacity="0.2"/>
+  <line x1="0" y1="170" x2="300" y2="170" stroke="#1a7fa0" stroke-width="0.3" stroke-opacity="0.15"/>
+  <path d="M10,10 L10,22 M10,10 L22,10" stroke="#1a7fa0" stroke-width="1" fill="none" stroke-opacity="0.6"/>
+  <path d="M290,10 L290,22 M290,10 L278,10" stroke="#1a7fa0" stroke-width="1" fill="none" stroke-opacity="0.6"/>
+  <path d="M10,190 L10,178 M10,190 L22,190" stroke="#1a7fa0" stroke-width="1" fill="none" stroke-opacity="0.6"/>
+  <path d="M290,190 L290,178 M290,190 L278,190" stroke="#1a7fa0" stroke-width="1" fill="none" stroke-opacity="0.6"/>
+  <ellipse cx="150" cy="108" rx="42" ry="30" fill="#141820" stroke="#1a7fa0" stroke-width="1.0" stroke-opacity="0.7"/>
+  <path d="M120,95 Q150,85 180,95" stroke="#1a7fa0" stroke-width="0.7" fill="none" stroke-opacity="0.5"/>
+  <path d="M115,108 Q150,118 185,108" stroke="#1a7fa0" stroke-width="0.7" fill="none" stroke-opacity="0.5"/>
+  <line x1="108" y1="96" x2="82" y2="78" stroke="#1a7fa0" stroke-width="1.2" stroke-opacity="0.6"/>
+  <line x1="108" y1="108" x2="78" y2="108" stroke="#1a7fa0" stroke-width="1.2" stroke-opacity="0.6"/>
+  <line x1="108" y1="120" x2="82" y2="138" stroke="#1a7fa0" stroke-width="1.0" stroke-opacity="0.5"/>
+  <line x1="192" y1="96" x2="218" y2="78" stroke="#1a7fa0" stroke-width="1.2" stroke-opacity="0.6"/>
+  <line x1="192" y1="108" x2="222" y2="108" stroke="#1a7fa0" stroke-width="1.2" stroke-opacity="0.6"/>
+  <line x1="192" y1="120" x2="218" y2="138" stroke="#1a7fa0" stroke-width="1.0" stroke-opacity="0.5"/>
+  <circle cx="150" cy="108" r="8" fill="#1a7fa0" fill-opacity="0.15"/>
+  <circle cx="150" cy="108" r="3" fill="#1a7fa0" fill-opacity="0.5"/>
+  <text x="282" y="195" font-family="monospace" font-size="7" fill="#1a7fa0" text-anchor="end" opacity="0.8">ELO</text>
+  <text x="18" y="195" font-family="monospace" font-size="7" fill="#1a7fa0" opacity="0.5">RANK C</text>
+</svg></div>
+        <div class="ch">
+      <div>
+        <div class="c-label">Estrangulador · Rank C</div>
+        <div class="c-name">ELO</div>
+        <div class="c-tags">
+          <span class="ctag">Solitário</span>
+          <span class="ctag">Terrestre</span>
+          <span class="ctag infect">Liga dois hospedeiros</span>
+          <span class="ctag">Dano compartilhado</span>
+        </div>
+      </div>
+      <div class="rank-badge">C</div>
+    </div>
+    <div class="sbar">
+      <div class="si"><div class="sk">HP</div><div class="sv hp">155</div></div>
+      <div class="si"><div class="sk">MP</div><div class="sv mp">75</div></div>
+      <div class="si"><div class="sk">CA</div><div class="sv ca">13</div></div>
+      <div class="si"><div class="sk">RD</div><div class="sv rd">4</div></div>
+      <div class="si"><div class="sk">INIT.</div><div class="sv">+2</div></div>
+      <div class="si"><div class="sk">DESLOC.</div><div class="sv sm">9 m</div></div>
+    </div>
+    <div class="cb">
+      <p class="flavor">
+        Corpo dividido em dois segmentos conectados por um filamento nervoso. O Elo parasita dois hospedeiros simultaneamente e cria um canal entre eles: HP, MP, dano, status — tudo compartilhado. Machucar um é machucar o outro. Matar um é matar ambos. A crueldade do Elo é que a solução óbvia é a pior possível.
+      </p>
+      <div class="two">
+        <div>
+          <div class="st">Atributos</div>
+          <div class="ag">
+            <div class="ab"><div class="ak">FOR</div><div class="av">14</div><div class="am">+2</div></div>
+            <div class="ab"><div class="ak">AGI</div><div class="av">14</div><div class="am">+2</div></div>
+            <div class="ab"><div class="ak">CON</div><div class="av">16</div><div class="am">+3</div></div>
+            <div class="ab"><div class="ak">INT</div><div class="av">8</div><div class="am">−1</div></div>
+            <div class="ab"><div class="ak">SAB</div><div class="av">12</div><div class="am">+1</div></div>
+          </div>
+          <div class="ml">
+            <div class="mr"><span class="mk">Tamanho</span><span class="mv">Pequeno (×2, um por hospedeiro)</span></div>
+            <div class="mr"><span class="mk">Hospedeiros</span><span class="mv">2 simultâneos (qualquer tipo)</span></div>
+            <div class="mr"><span class="mk">Encontro</span><span class="mv">1 Elo = 2 hospedeiros infectados</span></div>
+            <div class="mr"><span class="mk">Fenda</span><span class="mv">Grau C</span></div>
+            <div class="mr"><span class="mk">Título rec.</span><span class="mv">Franqueador</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="st">Fraquezas &amp; Imunidades</div>
+          <div class="wl">
+            <div class="wr"><span class="wt v">VULNER</span><span class="wd">[Corte] no filamento (visível, CD 14): corta o canal — desvincula os hospedeiros. 2d6 dano a ambos os segmentos do Elo.</span></div>
+            <div class="wr"><span class="wt v">VULNER</span><span class="wd">Ambos os segmentos a 0 HP simultâneos: morte instantânea do Elo, ambos os hospedeiros sobrevivem.</span></div>
+            <div class="wr"><span class="wt i">IMUNE</span><span class="wd">Cegueira, Medo, Paralisia.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="st">Traços Especiais</div>
+        <div class="tl">
+          <div class="tr">
+            <div class="tn">Canal Vital</div>
+            <div class="td">O Elo cria um canal bidirecional entre os dois hospedeiros. Dano, cura, MP, status — tudo atravessa o canal. Atacar um hospedeiro é atacar os dois.</div>
+            <div class="tm">
+              <div class="tm-lbl">Mecânica</div>
+              Qualquer dano a Hospedeiro A: 50% vai para Hospedeiro B (e vice-versa).<br>
+              Qualquer cura a um hospedeiro: 50% vai para o outro.<br>
+              Status aplicado a um: também aplicado ao outro (mesma duração).<br>
+              Cortar o filamento ([Corte] CD 14): encerra o canal imediatamente.<br>
+              Matar Hospedeiro A com canal ativo: Hospedeiro B cai para 1 HP (choque vital).
+            </div>
+          </div>
+          <div class="tr">
+            <div class="tn">Controle por Revezamento</div>
+            <div class="td">O Elo alterna o controle entre os dois hospedeiros. Enquanto um é controlado pelo Elo, o outro está parcialmente consciente — pode tentar resistir, mas não age livremente.</div>
+            <div class="tm">
+              <div class="tm-lbl">Mecânica</div>
+              Cada turno: o Elo controla um hospedeiro completamente, o outro está Lento (deslocamento ÷2).<br>
+              Hospedeiro parcialmente consciente: SAB CD 14 para usar 1 ação (não padrão) no turno.<br>
+              Se ambos os hospedeiros tiverem o mesmo Laço: ambos ganham vantagem no teste de resistência.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="st">Protocolo de Extermínio</div>
+        <div class="al">
+          <div class="ab2">
+            <div class="ah">
+              <span class="an">Parasitar Dois</span>
+              <span class="at2">AÇÃO PADRÃO + BÔNUS</span>
+              <div class="atags"><span class="a-t">[Físico]</span><span class="a-t">Toque ×2</span><span class="a-t infect" style="color:#5ab85a;border-color:rgba(58,107,58,.3);background:rgba(58,107,58,.1)">Canal Vital</span><span class="mp-t">MP: 10</span></div>
+            </div>
+            <div class="abody">
+              <div class="amec">
+                <strong>Ataque:</strong> dois ataques (1d20 + AGI +2 vs CA) contra alvos diferentes em 3 m.<br>
+                <strong>Dano:</strong> 1d6+2 cinético cada.<br>
+                <strong>Sucesso em ambos:</strong> Canal Vital ativo imediatamente.<br>
+                <strong>Sucesso em um:</strong> Infecção Estágio I no alvo atingido, Elo aguarda oportunidade para o segundo.
+              </div>
+              <div class="af">Dois são melhores que um. Para o Elo, sempre.</div>
+            </div>
+          </div>
+          <div class="ab2">
+            <div class="ah">
+              <span class="an">Pulso de Canal</span>
+              <span class="at2">AÇÃO PADRÃO · CANAL ATIVO</span>
+              <div class="atags"><span class="a-t">[Exótico]</span><span class="a-t">Canal Vital</span><span class="a-t">Ambos os hospedeiros</span><span class="mp-t">MP: 8</span></div>
+            </div>
+            <div class="abody">
+              <div class="amec">
+                <strong>Pré-req:</strong> Canal Vital ativo.<br>
+                <strong>Dano:</strong> 2d8+3 exótico a ambos os hospedeiros simultaneamente (não é 50/50 — é total em cada).<br>
+                <strong>Efeito:</strong> ambos ficam Atordoados por 1 turno.<br>
+                <strong>Resistência:</strong> CON CD 14 para metade (Atordoamento sem resistência).
+              </div>
+              <div class="af">O canal é uma via de mão dupla. O Elo usa isso.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="two">
+        <div>
+          <div class="st">Loot</div>
+          <div class="ll">
+            <div class="li">Filamento do canal · material de item de vínculo (Pesquisador pode criar item Elo de Cura — compartilha cura entre dois aliados)</div>
+            <div class="li">Segmento do Elo · componente de Antídoto rank C</div>
+          </div>
+        </div>
+        <div>
+          <div class="st">Protocolo Tático</div>
+          <div class="nb2">
+            <p><em>Objetivo imediato: cortar o filamento ([Corte] CD 14).</em> Com o canal ativo, nenhum dano de área é seguro — 50% vai para o outro hospedeiro. Identificar o filamento (visível após SAB CD 13) e atacar com arma de corte dedicada. Sem o canal, os dois segmentos do Elo são vulneráveis individualmente.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- RANK B · SIMBIÓTICO                        -->
+<!-- ══════════════════════════════════════════ -->
+<div class="m-wrap" id="simbiontico" data-r="B">
+  <div class="rank-row"><span class="rank-pip" style="background:var(--b)"></span>Estrangulador · Rank B</div>
+  <div class="m-card">
+    
+        <div class="creature-illustration"><svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="300" height="200" fill="#080a0d"/>
+  <defs>
+    <radialGradient id="g" cx="50%" cy="50%" r="45%">
+      <stop offset="0%" stop-color="#c87820" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#080a0d" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <ellipse cx="150" cy="108" rx="80" ry="52" fill="url(#g)"/>
+  <line x1="0" y1="38" x2="300" y2="38" stroke="#c87820" stroke-width="0.3" stroke-opacity="0.2"/>
+  <line x1="0" y1="170" x2="300" y2="170" stroke="#c87820" stroke-width="0.3" stroke-opacity="0.15"/>
+  <path d="M10,10 L10,22 M10,10 L22,10" stroke="#c87820" stroke-width="1" fill="none" stroke-opacity="0.6"/>
+  <path d="M290,10 L290,22 M290,10 L278,10" stroke="#c87820" stroke-width="1" fill="none" stroke-opacity="0.6"/>
+  <path d="M10,190 L10,178 M10,190 L22,190" stroke="#c87820" stroke-width="1" fill="none" stroke-opacity="0.6"/>
+  <path d="M290,190 L290,178 M290,190 L278,190" stroke="#c87820" stroke-width="1" fill="none" stroke-opacity="0.6"/>
+  <ellipse cx="150" cy="108" rx="42" ry="30" fill="#141820" stroke="#c87820" stroke-width="1.0" stroke-opacity="0.7"/>
+  <path d="M120,95 Q150,85 180,95" stroke="#c87820" stroke-width="0.7" fill="none" stroke-opacity="0.5"/>
+  <path d="M115,108 Q150,118 185,108" stroke="#c87820" stroke-width="0.7" fill="none" stroke-opacity="0.5"/>
+  <line x1="108" y1="96" x2="82" y2="78" stroke="#c87820" stroke-width="1.2" stroke-opacity="0.6"/>
+  <line x1="108" y1="108" x2="78" y2="108" stroke="#c87820" stroke-width="1.2" stroke-opacity="0.6"/>
+  <line x1="108" y1="120" x2="82" y2="138" stroke="#c87820" stroke-width="1.0" stroke-opacity="0.5"/>
+  <line x1="192" y1="96" x2="218" y2="78" stroke="#c87820" stroke-width="1.2" stroke-opacity="0.6"/>
+  <line x1="192" y1="108" x2="222" y2="108" stroke="#c87820" stroke-width="1.2" stroke-opacity="0.6"/>
+  <line x1="192" y1="120" x2="218" y2="138" stroke="#c87820" stroke-width="1.0" stroke-opacity="0.5"/>
+  <circle cx="150" cy="108" r="8" fill="#c87820" fill-opacity="0.15"/>
+  <circle cx="150" cy="108" r="3" fill="#c87820" fill-opacity="0.5"/>
+  <text x="282" y="195" font-family="monospace" font-size="7" fill="#c87820" text-anchor="end" opacity="0.8">SIMBIONTICO</text>
+  <text x="18" y="195" font-family="monospace" font-size="7" fill="#c87820" opacity="0.5">RANK B</text>
+</svg></div>
+        <div class="ch">
+      <div>
+        <div class="c-label">Estrangulador · Rank B</div>
+        <div class="c-name">SIMBIÓTICO</div>
+        <div class="c-tags">
+          <span class="ctag">Solitário</span>
+          <span class="ctag">Terrestre</span>
+          <span class="ctag infect">Infecção Estágio III</span>
+          <span class="ctag">Hospedeiro Monstro rank C+</span>
+        </div>
+      </div>
+      <div class="rank-badge">B</div>
+    </div>
+    <div class="sbar">
+      <div class="si"><div class="sk">HP</div><div class="sv hp">200 + host</div></div>
+      <div class="si"><div class="sk">MP</div><div class="sv mp">110</div></div>
+      <div class="si"><div class="sk">CA</div><div class="sv ca">15</div></div>
+      <div class="si"><div class="sk">RD</div><div class="sv rd">7</div></div>
+      <div class="si"><div class="sk">INIT.</div><div class="sv">+2</div></div>
+      <div class="si"><div class="sk">DESLOC.</div><div class="sv sm">igual ao host +3 m</div></div>
+    </div>
+    <div class="cb">
+      <p class="flavor">
+        Quando o Simbiótico termina com um monstro de rank C ou superior, o resultado não é um monstro com parasita — é algo novo. A morfologia do hospedeiro é mantida mas redesenhada: órgãos reposicionados para proteger o parasita, couro mais espesso, comportamento mais inteligente. Matar o Simbiótico não mata o monstro. Matar o monstro não mata o Simbiótico.
+      </p>
+      <div class="two">
+        <div>
+          <div class="st">Atributos (sobre hospedeiro C+)</div>
+          <div class="ag">
+            <div class="ab"><div class="ak">FOR</div><div class="av">★</div><div class="am">+4</div></div>
+            <div class="ab"><div class="ak">AGI</div><div class="av">★</div><div class="am">+2</div></div>
+            <div class="ab"><div class="ak">CON</div><div class="av">★</div><div class="am">+4</div></div>
+            <div class="ab"><div class="ak">INT</div><div class="av">★</div><div class="am">+6</div></div>
+            <div class="ab"><div class="ak">SAB</div><div class="av">★</div><div class="am">+2</div></div>
+          </div>
+          <div class="ml">
+            <div class="mr"><span class="mk">HP total</span><span class="mv">200 (Simbiótico) + HP do hospedeiro</span></div>
+            <div class="mr"><span class="mk">Hospedeiro</span><span class="mv">Monstro rank C ou superior</span></div>
+            <div class="mr"><span class="mk">Bônus atrib.</span><span class="mv">Soma-se aos atributos base do host</span></div>
+            <div class="mr"><span class="mk">Encontro</span><span class="mv">1 (nunca visto em grupo)</span></div>
+            <div class="mr"><span class="mk">Fenda</span><span class="mv">Grau B</span></div>
+            <div class="mr"><span class="mk">Título rec.</span><span class="mv">Desperto</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="st">Fraquezas &amp; Imunidades</div>
+          <div class="wl">
+            <div class="wr"><span class="wt v">VULNER</span><span class="wd">[Dimensional] — único tipo que afeta o Simbiótico e o hospedeiro simultaneamente com dano total.</span></div>
+            <div class="wr"><span class="wt v">VULNER</span><span class="wd">Núcleo Simbiótico exposto (após hospedeiro a 0 HP, CD 16): RD 0, dano ×2.</span></div>
+            <div class="wr"><span class="wt r">RESIST</span><span class="wd">Todos os tipos físicos (couro redesenhado): RD 7 vs qualquer ataque não-[Dimensional].</span></div>
+            <div class="wr"><span class="wt i">IMUNE</span><span class="wd">Veneno, Doença, Paralisia, Medo.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="st">Traços Especiais</div>
+        <div class="tl">
+          <div class="tr">
+            <div class="tn">Dois Corpos, Uma Morte</div>
+            <div class="td">O Simbiótico e o hospedeiro têm pools de HP separados, mas o Simbiótico não pode ser visado enquanto o hospedeiro estiver vivo — está dentro, protegido.</div>
+            <div class="tm">
+              <div class="tm-lbl">Mecânica</div>
+              Enquanto hospedeiro vivo: todo dano vai ao HP do hospedeiro.<br>
+              Hospedeiro a 0 HP: Simbiótico exposto — surge como criatura separada com 200 HP.<br>
+              Núcleo exposto: RD 0 por 2 turnos, depois RD volta para 7.<br>
+              Cada um tem sua própria iniciativa ao se separar — Simbiótico age com INIT +2.
+            </div>
+          </div>
+          <div class="tr">
+            <div class="tn">Inteligência Simbiótica</div>
+            <div class="td">A fusão aumenta radicalmente a INT do hospedeiro. O Simbiótico usa táticas que o monstro original nunca usaria: flanqueamento, espera, recuo calculado.</div>
+            <div class="tm">
+              <div class="tm-lbl">Mecânica</div>
+              INT do hospedeiro +6: pode usar flanqueamento, recuar e reagrupar, escolher alvo mais vulnerável.<br>
+              Reconhece Despertados: prioriza atacar o de menor MP atual.<br>
+              Jamais entra em frenesi — sempre tático.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="st">Protocolo de Extermínio</div>
+        <div class="al">
+          <div class="ab2">
+            <div class="ah">
+              <span class="an">Ataque do Hospedeiro</span>
+              <span class="at2">AÇÃO PADRÃO</span>
+              <div class="atags"><span class="a-t">Habilidades do host</span><span class="a-t">Atributos amplificados</span><span class="mp-t">MP: igual ao host</span></div>
+            </div>
+            <div class="abody">
+              <div class="amec">
+                <strong>Usa todas as habilidades do monstro hospedeiro</strong> com atributos amplificados (+4 FOR, +2 AGI).<br>
+                <strong>Dano base:</strong> igual ao hospedeiro +2d6 (amplificação).<br>
+                <strong>Táticas:</strong> o Simbiótico escolhe o alvo com menor MP. Sempre flanqueia quando possível.
+              </div>
+              <div class="af">O monstro que você conhece. Só que melhor em todos os sentidos.</div>
+            </div>
+          </div>
+          <div class="ab2">
+            <div class="ah">
+              <span class="an">Surto Parasitário</span>
+              <span class="at2">AÇÃO PADRÃO · EXPOSTO · 1/COMBATE</span>
+              <div class="atags"><span class="a-t">[Físico][Exótico]</span><span class="a-t">Área 6 m</span><span class="a-t infect" style="color:#5ab85a;border-color:rgba(58,107,58,.3);background:rgba(58,107,58,.1)">Infecção III</span><span class="mp-t">MP: 15</span></div>
+            </div>
+            <div class="abody">
+              <div class="amec">
+                <strong>Pré-req:</strong> Simbiótico exposto (hospedeiro a 0 HP).<br>
+                <strong>Dano:</strong> 4d10+4 em área 6 m.<br>
+                <strong>Efeito:</strong> todos atingidos fazem CON CD 16 ou Infecção Estágio III imediata.<br>
+                <strong>Resistência ao dano:</strong> AGI CD 14 para metade (Infecção não tem resistência).<br>
+                <strong>Estágio III imediato:</strong> o personagem é controlado pelo Simbiótico na próxima rodada.
+              </div>
+              <div class="af">Quando o hospedeiro morre, o Simbiótico não espera. Já está escolhendo o próximo.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="two">
+        <div>
+          <div class="st">Loot</div>
+          <div class="ll">
+            <div class="li">Núcleo Simbiótico · componente de item único Simbiose Protetora (armadura rank B: quando wearer vai a 0 HP, cria escudo de 50 HP uma vez por missão)</div>
+            <div class="li">Loot do hospedeiro · intacto — o Simbiótico não consome o monstro, apenas o usa</div>
+            <div class="li">Tecido de amplificação · componente de Antídoto rank B</div>
+          </div>
+        </div>
+        <div>
+          <div class="st">Protocolo Tático</div>
+          <div class="nb2">
+            <p><em>Dois combates, não um.</em> Fase 1: matar o hospedeiro (todo dano vai para ele). Fase 2: o Simbiótico exposto tem RD 0 por 2 turnos — focar dano [Dimensional] nessa janela. Não usar área no Surto Parasitário — recuar 7+ m antes de matar o hospedeiro.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- RANK B · CORROMPIDO                        -->
+<!-- ══════════════════════════════════════════ -->
+<div class="m-wrap" id="corrompido" data-r="B">
+  <div class="rank-row"><span class="rank-pip" style="background:var(--b)"></span>Estrangulador · Rank B</div>
+  <div class="m-card">
+    
+        <div class="creature-illustration"><svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="300" height="200" fill="#080a0d"/>
+  <defs>
+    <radialGradient id="g" cx="50%" cy="50%" r="45%">
+      <stop offset="0%" stop-color="#c87820" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#080a0d" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <ellipse cx="150" cy="108" rx="80" ry="52" fill="url(#g)"/>
+  <line x1="0" y1="38" x2="300" y2="38" stroke="#c87820" stroke-width="0.3" stroke-opacity="0.2"/>
+  <line x1="0" y1="170" x2="300" y2="170" stroke="#c87820" stroke-width="0.3" stroke-opacity="0.15"/>
+  <path d="M10,10 L10,22 M10,10 L22,10" stroke="#c87820" stroke-width="1" fill="none" stroke-opacity="0.6"/>
+  <path d="M290,10 L290,22 M290,10 L278,10" stroke="#c87820" stroke-width="1" fill="none" stroke-opacity="0.6"/>
+  <path d="M10,190 L10,178 M10,190 L22,190" stroke="#c87820" stroke-width="1" fill="none" stroke-opacity="0.6"/>
+  <path d="M290,190 L290,178 M290,190 L278,190" stroke="#c87820" stroke-width="1" fill="none" stroke-opacity="0.6"/>
+  <ellipse cx="150" cy="108" rx="42" ry="30" fill="#141820" stroke="#c87820" stroke-width="1.0" stroke-opacity="0.7"/>
+  <path d="M120,95 Q150,85 180,95" stroke="#c87820" stroke-width="0.7" fill="none" stroke-opacity="0.5"/>
+  <path d="M115,108 Q150,118 185,108" stroke="#c87820" stroke-width="0.7" fill="none" stroke-opacity="0.5"/>
+  <line x1="108" y1="96" x2="82" y2="78" stroke="#c87820" stroke-width="1.2" stroke-opacity="0.6"/>
+  <line x1="108" y1="108" x2="78" y2="108" stroke="#c87820" stroke-width="1.2" stroke-opacity="0.6"/>
+  <line x1="108" y1="120" x2="82" y2="138" stroke="#c87820" stroke-width="1.0" stroke-opacity="0.5"/>
+  <line x1="192" y1="96" x2="218" y2="78" stroke="#c87820" stroke-width="1.2" stroke-opacity="0.6"/>
+  <line x1="192" y1="108" x2="222" y2="108" stroke="#c87820" stroke-width="1.2" stroke-opacity="0.6"/>
+  <line x1="192" y1="120" x2="218" y2="138" stroke="#c87820" stroke-width="1.0" stroke-opacity="0.5"/>
+  <circle cx="150" cy="108" r="8" fill="#c87820" fill-opacity="0.15"/>
+  <circle cx="150" cy="108" r="3" fill="#c87820" fill-opacity="0.5"/>
+  <text x="282" y="195" font-family="monospace" font-size="7" fill="#c87820" text-anchor="end" opacity="0.8">CORROMPIDO</text>
+  <text x="18" y="195" font-family="monospace" font-size="7" fill="#c87820" opacity="0.5">RANK B</text>
+</svg></div>
+        <div class="ch">
+      <div>
+        <div class="c-label">Estrangulador · Rank B</div>
+        <div class="c-name">CORROMPIDO</div>
+        <div class="c-tags">
+          <span class="ctag">Evento de Sessão</span>
+          <span class="ctag">Terrestre</span>
+          <span class="ctag infect">Hospedeiro: Despertado NPC conhecido</span>
+          <span class="ctag">Infecção Estágio III</span>
+        </div>
+      </div>
+      <div class="rank-badge">B</div>
+    </div>
+    <div class="sbar">
+      <div class="si"><div class="sk">HP</div><div class="sv hp">NPC + 80</div></div>
+      <div class="si"><div class="sk">MP</div><div class="sv mp">NPC + 50</div></div>
+      <div class="si"><div class="sk">CA</div><div class="sv ca">NPC + 1</div></div>
+      <div class="si"><div class="sk">RD</div><div class="sv rd">NPC + 3</div></div>
+      <div class="si"><div class="sk">INIT.</div><div class="sv">NPC</div></div>
+      <div class="si"><div class="sk">DESLOC.</div><div class="sv sm">NPC + 3 m</div></div>
+    </div>
+    <div class="cb">
+      <p class="flavor">
+        O Corrompido não é uma criatura que encontramos na fenda. É alguém que o grupo conhece — um NPC que desapareceu, um instrutor, um aliado de missão anterior. Voltou diferente. Mais forte. E vai usar tudo que sabe sobre o grupo para destruí-los.
+      </p>
+
+      <div style="background:rgba(180,40,40,.08); border:1px solid rgba(180,40,40,.2); border-radius:7px; padding:14px 16px; margin-bottom:4px;">
+        <div style="font-family:var(--mono); font-size:9px; letter-spacing:.14em; color:#e05050; margin-bottom:8px;">⚠ NOTA DE MESTRE</div>
+        <p style="font-size:13px; color:var(--dim); line-height:1.6;">O Corrompido é sempre um NPC específico da campanha, com nome, história e vínculos com os personagens. Suas estatísticas base são as do NPC em questão, com os bônus acima somados. O mestre deve preparar esta entrada adaptada ao NPC escolhido antes da sessão.</p>
+      </div>
+
+      <div class="two">
+        <div>
+          <div class="st">Modificadores (sobre o NPC base)</div>
+          <div class="ml">
+            <div class="mr"><span class="mk">HP</span><span class="mv">NPC base + 80</span></div>
+            <div class="mr"><span class="mk">MP</span><span class="mv">NPC base + 50</span></div>
+            <div class="mr"><span class="mk">FOR / CON</span><span class="mv">+4 em ambos</span></div>
+            <div class="mr"><span class="mk">INT</span><span class="mv">+2 (o parasita acessa memórias)</span></div>
+            <div class="mr"><span class="mk">SAB</span><span class="mv">−2 (emoções suprimidas)</span></div>
+            <div class="mr"><span class="mk">RD</span><span class="mv">NPC base + 3</span></div>
+            <div class="mr"><span class="mk">Fenda</span><span class="mv">Grau B</span></div>
+            <div class="mr"><span class="mk">Título rec.</span><span class="mv">Desperto</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="st">Fraquezas &amp; Imunidades</div>
+          <div class="wl">
+            <div class="wr"><span class="wt v">VULNER</span><span class="wd">[Psíquico] — o hospedeiro consciente pode resistir por dentro. CD −4 para [Psíquico]. Sucesso causa o Corrompido a errar o próximo ataque.</span></div>
+            <div class="wr"><span class="wt v">VULNER</span><span class="wd">Laço ativo (ver Regra de Laço): se o atacante tem o NPC como Laço, o NPC resiste por dentro — +2d6 de dano de todos os ataques do Laço.</span></div>
+            <div class="wr"><span class="wt i">IMUNE</span><span class="wd">Medo, Paralisia — o parasita não tem medo. O hospedeiro tem, mas está suprimido.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="st">Traços Especiais</div>
+        <div class="tl">
+          <div class="tr">
+            <div class="tn">Conhece o Grupo</div>
+            <div class="td">O Corrompido tem acesso às memórias do NPC e sabe tudo que o NPC sabia: fraquezas, combinações táticas, o Laço de cada personagem, missões anteriores. Usa isso.</div>
+            <div class="tm">
+              <div class="tm-lbl">Mecânica</div>
+              Sempre ataca o alvo com menor RD ou HP — conhece as fichas.<br>
+              Sabe qual personagem tem qual poder e evita as combinações eficazes.<br>
+              Pode usar informação de missão anterior como isca ("o portal do setor 7 está aberto ainda").<br>
+              Mestre deve decidir o que o NPC sabia e usar isso ativamente.
+            </div>
+          </div>
+          <div class="tr">
+            <div class="tn">Resistência Interna</div>
+            <div class="td">O NPC original ainda está consciente dentro do Corrompido — suprimido mas presente. Em momentos de pressão emocional extrema, pode emergir brevemente.</div>
+            <div class="tm">
+              <div class="tm-lbl">Mecânica</div>
+              Gatilho de emergência: o atacante com Laço no NPC usa seu Laço na cena (regra de Laços, Cap. 10).<br>
+              Efeito: por 1 turno, o NPC original emerge — o Corrompido não age e pode revelar informação.<br>
+              Isso não salva o NPC — é 1 turno. Depois o parasita reassume.<br>
+              O mestre deve preparar o que o NPC diria nesse turno.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="st">Protocolo de Extermínio</div>
+        <div class="al">
+          <div class="ab2">
+            <div class="ah">
+              <span class="an">Poderes do NPC + Amplificação</span>
+              <span class="at2">AÇÃO PADRÃO</span>
+              <div class="atags"><span class="a-t">Todos os poderes do NPC</span><span class="a-t">Custo ×1 (MP extra disponível)</span><span class="mp-t">MP: NPC + 50</span></div>
+            </div>
+            <div class="abody">
+              <div class="amec">
+                <strong>Usa todos os poderes do NPC base.</strong><br>
+                <strong>Bônus:</strong> todos os ataques do NPC têm +3 de acerto e +2d6 de dano.<br>
+                <strong>Conhecimento tático:</strong> sempre usa o poder que o grupo menos resiste (mestre decide com base no histórico).
+              </div>
+              <div class="af">Você ensinou a ele o que funciona contra você.</div>
+            </div>
+          </div>
+          <div class="ab2">
+            <div class="ah">
+              <span class="an">Extrair o Parasita</span>
+              <span class="at2">CONDIÇÃO ESPECIAL</span>
+              <div class="atags"><span class="a-t">Resolução narrativa</span><span class="a-t infect" style="color:#5ab85a;border-color:rgba(58,107,58,.3);background:rgba(58,107,58,.1)">Salvar o NPC</span><span class="mp-t">Antídoto rank B+</span></div>
+            </div>
+            <div class="abody">
+              <div class="amec">
+                <strong>Condição:</strong> reduzir o Corrompido a 30 HP ou menos SEM matar.<br>
+                <strong>Ação padrão:</strong> Medicina CD 18 (aliado adjacente) + Antídoto rank B.<br>
+                <strong>Sucesso:</strong> parasita expelido — NPC sobrevive com 1 HP.<br>
+                <strong>Falha:</strong> Medicina CD falha → o parasita se aprofunda; o NPC morre quando o Corrompido chega a 0 HP.<br>
+                <strong>O NPC pode ou não sobreviver ao processo</strong> — depende dos turnos de infecção total.
+              </div>
+              <div class="af">Matar é sempre mais fácil. Salvar exige mais do grupo em todos os sentidos.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="two">
+        <div>
+          <div class="st">Loot</div>
+          <div class="ll">
+            <div class="li">Parasita extraído (se salvo com sucesso) · componente de pesquisa sobre Estágio III · Pesquisador NP 8+</div>
+            <div class="li">Memória residual do parasita · item narrativo — contém 1d4 memórias de outros hospedeiros anteriores do mesmo parasita</div>
+          </div>
+        </div>
+        <div>
+          <div class="st">Protocolo Tático</div>
+          <div class="nb2">
+            <p><em>Decidir antes de engajar: matar ou salvar?</em> Salvar requer reduzir a 30 HP sem matar (difícil com grupo estressado) + Medicina CD 18 + Antídoto rank B. Quem tem Laço com o NPC causa +2d6 de dano e pode ativar 1 turno de resistência interna. [Psíquico] com CD −4 interrompe o próximo ataque do Corrompido.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- RANK A · CONFLUÊNCIA                       -->
+<!-- ══════════════════════════════════════════ -->
+<div class="m-wrap" id="confluencia" data-r="A">
+  <div class="rank-row"><span class="rank-pip" style="background:var(--a)"></span>Estrangulador · Rank A</div>
+  <div class="m-card">
+    
+        <div class="creature-illustration"><svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="300" height="200" fill="#080a0d"/>
+  <defs>
+    <radialGradient id="g" cx="50%" cy="50%" r="45%">
+      <stop offset="0%" stop-color="#b52828" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#080a0d" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <ellipse cx="150" cy="108" rx="80" ry="52" fill="url(#g)"/>
+  <line x1="0" y1="38" x2="300" y2="38" stroke="#b52828" stroke-width="0.3" stroke-opacity="0.2"/>
+  <line x1="0" y1="170" x2="300" y2="170" stroke="#b52828" stroke-width="0.3" stroke-opacity="0.15"/>
+  <path d="M10,10 L10,22 M10,10 L22,10" stroke="#b52828" stroke-width="1" fill="none" stroke-opacity="0.6"/>
+  <path d="M290,10 L290,22 M290,10 L278,10" stroke="#b52828" stroke-width="1" fill="none" stroke-opacity="0.6"/>
+  <path d="M10,190 L10,178 M10,190 L22,190" stroke="#b52828" stroke-width="1" fill="none" stroke-opacity="0.6"/>
+  <path d="M290,190 L290,178 M290,190 L278,190" stroke="#b52828" stroke-width="1" fill="none" stroke-opacity="0.6"/>
+  <ellipse cx="150" cy="108" rx="42" ry="30" fill="#141820" stroke="#b52828" stroke-width="1.0" stroke-opacity="0.7"/>
+  <path d="M120,95 Q150,85 180,95" stroke="#b52828" stroke-width="0.7" fill="none" stroke-opacity="0.5"/>
+  <path d="M115,108 Q150,118 185,108" stroke="#b52828" stroke-width="0.7" fill="none" stroke-opacity="0.5"/>
+  <line x1="108" y1="96" x2="82" y2="78" stroke="#b52828" stroke-width="1.2" stroke-opacity="0.6"/>
+  <line x1="108" y1="108" x2="78" y2="108" stroke="#b52828" stroke-width="1.2" stroke-opacity="0.6"/>
+  <line x1="108" y1="120" x2="82" y2="138" stroke="#b52828" stroke-width="1.0" stroke-opacity="0.5"/>
+  <line x1="192" y1="96" x2="218" y2="78" stroke="#b52828" stroke-width="1.2" stroke-opacity="0.6"/>
+  <line x1="192" y1="108" x2="222" y2="108" stroke="#b52828" stroke-width="1.2" stroke-opacity="0.6"/>
+  <line x1="192" y1="120" x2="218" y2="138" stroke="#b52828" stroke-width="1.0" stroke-opacity="0.5"/>
+  <circle cx="150" cy="108" r="8" fill="#b52828" fill-opacity="0.15"/>
+  <circle cx="150" cy="108" r="3" fill="#b52828" fill-opacity="0.5"/>
+  <text x="282" y="195" font-family="monospace" font-size="7" fill="#b52828" text-anchor="end" opacity="0.8">CONFLUENCIA</text>
+  <text x="18" y="195" font-family="monospace" font-size="7" fill="#b52828" opacity="0.5">RANK A</text>
+</svg></div>
+        <div class="ch">
+      <div>
+        <div class="c-label">Estrangulador · Rank A</div>
+        <div class="c-name">CONFLUÊNCIA</div>
+        <div class="c-tags">
+          <span class="ctag">Solitário</span>
+          <span class="ctag">Terrestre</span>
+          <span class="ctag infect">Múltiplos hospedeiros fundidos</span>
+          <span class="ctag">Corpo-colônia</span>
+        </div>
+      </div>
+      <div class="rank-badge">A</div>
+    </div>
+    <div class="sbar">
+      <div class="si"><div class="sk">HP</div><div class="sv hp">240</div></div>
+      <div class="si"><div class="sk">MP</div><div class="sv mp">150</div></div>
+      <div class="si"><div class="sk">CA</div><div class="sv ca">16</div></div>
+      <div class="si"><div class="sk">RD</div><div class="sv rd">8</div></div>
+      <div class="si"><div class="sk">INIT.</div><div class="sv">+3</div></div>
+      <div class="si"><div class="sk">DESLOC.</div><div class="sv sm">12 m</div></div>
+    </div>
+    <div class="cb">
+      <p class="flavor">
+        Você reconhece um dos rostos. Não com certeza — está distorcido, parcialmente fundido com outro corpo — mas reconhece. Pode ser alguém que o grupo viu numa missão anterior. Pode ser um civil desaparecido. A Confluência não é uma criatura que você pode atacar sem saber o que está destruindo. Cada cabeça é o que restou de um hospedeiro diferente. Alguns ainda estão conscientes.
+      </p>
+      <div class="two">
+        <div>
+          <div class="st">Atributos</div>
+          <div class="ag">
+            <div class="ab"><div class="ak">FOR</div><div class="av">22</div><div class="am">+6</div></div>
+            <div class="ab"><div class="ak">AGI</div><div class="av">14</div><div class="am">+2</div></div>
+            <div class="ab"><div class="ak">CON</div><div class="av">22</div><div class="am">+6</div></div>
+            <div class="ab"><div class="ak">INT</div><div class="av">18</div><div class="am">+4</div></div>
+            <div class="ab"><div class="ak">SAB</div><div class="av">8</div><div class="am">−1</div></div>
+          </div>
+          <div class="ml">
+            <div class="mr"><span class="mk">Tamanho</span><span class="mv">Grande (fusão de 4–8 hospedeiros)</span></div>
+            <div class="mr"><span class="mk">Memórias</span><span class="mv">Todos os hospedeiros anteriores</span></div>
+            <div class="mr"><span class="mk">Encontro</span><span class="mv">1 (sempre solitário)</span></div>
+            <div class="mr"><span class="mk">Fenda</span><span class="mv">Grau A</span></div>
+            <div class="mr"><span class="mk">Título rec.</span><span class="mv">Quebrador de Fendas</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="st">Fraquezas &amp; Imunidades</div>
+          <div class="wl">
+            <div class="wr"><span class="wt v">VULNER</span><span class="wd">[Psíquico] em área total — as mentes dos hospedeiros entram em conflito. CD −3, Atordoado por 1 turno se resistência falhar.</span></div>
+            <div class="wr"><span class="wt v">VULNER</span><span class="wd">Núcleo central parasitário (CD 17, exposto quando abaixo de 80 HP): RD 0, dano ×2.</span></div>
+            <div class="wr"><span class="wt r">RESIST</span><span class="wd">Elemental: absorve 40% do dano elemental como HP (o corpo-colônia redistribui energia).</span></div>
+            <div class="wr"><span class="wt i">IMUNE</span><span class="wd">Status mentais simples (Medo, Confusão — há mentes demais para focar o efeito).</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="st">Traços Especiais</div>
+        <div class="tl">
+          <div class="tr">
+            <div class="tn">Memória Acumulada</div>
+            <div class="td">A Confluência contém as memórias de todos os seus hospedeiros. Conhece táticas de grupos anteriores, fraquezas de Despertados específicos, e pode reconhecer personagens que estiveram envolvidos com qualquer um de seus antigos hospedeiros.</div>
+            <div class="tm">
+              <div class="tm-lbl">Mecânica</div>
+              O mestre define quantos e quais hospedeiros a Confluência já teve.<br>
+              Se reconhecer algum personagem ou aliado (por memória de hospedeiro), +2 acerto e +1d8 dano contra esse alvo.<br>
+              Pode revelar informação de missão anterior se provocada com [Psíquico] (uma memória por uso).
+            </div>
+          </div>
+          <div class="tr">
+            <div class="tn">Hospedeiros Reconhecíveis</div>
+            <div class="td">O mestre deve preparar 1d3 hospedeiros reconhecíveis. Isso não altera a mecânica — mas muda o que o grupo sente ao atacar. Cada acerto é uma decisão, não apenas um dado.</div>
+            <div class="tm"><div class="tml">Mecânica</div>Identificar: SAB CD 14 ou [Psíquico]<br>Se identificado e Laço presente: SAB CD 12 ou Desvantagem no ataque por 1 turno<br>Consciência residual: [Psíquico] CD 16 — respostas simples<br>Diferença do Telepático: localização vs. custo moral</div>
+          </div>
+          <div class="tr">
+            <div class="tn">Corpo-Colônia</div>
+            <div class="td">A fusão de hospedeiros cria redundância biológica extrema. Partes do corpo podem ser destruídas sem que a Confluência morra ou perca capacidade.</div>
+            <div class="tm">
+              <div class="tm-lbl">Mecânica</div>
+              Abaixo de 50% HP: não perde ações nem sofre penalidades.<br>
+              Abaixo de 25% HP: perde 1 ação padrão (de 2 para 1) por turno.<br>
+              Membros destruídos: não afetam os ataques restantes (corpo-colônia redistribui).<br>
+              2 ações padrão por turno: a Confluência age 2× por turno (corpo-colônia).
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="st">Protocolo de Extermínio</div>
+        <div class="al">
+          <div class="ab2">
+            <div class="ah">
+              <span class="an">Golpe de Colônia</span>
+              <span class="at2">AÇÃO PADRÃO × 2/TURNO</span>
+              <div class="atags"><span class="a-t">[Físico]</span><span class="a-t">Toque</span><span class="a-t">2 alvos distintos</span><span class="mp-t">MP: 8 cada</span></div>
+            </div>
+            <div class="abody">
+              <div class="amec">
+                <strong>Ataque:</strong> 2× (1d20 + FOR +6) vs CA — alvos obrigatoriamente diferentes.<br>
+                <strong>Dano:</strong> 3d10+6 cinético por acerto.<br>
+                <strong>Efeito:</strong> alvo sofre Imobilizado até o final do próximo turno (CON CD 18 para negar).<br>
+                <strong>Alvo imobilizado:</strong> próximo ataque da Confluência contra ele tem vantagem.
+              </div>
+              <div class="af">Não há um braço e depois outro. São dois ataques do mesmo ser simultaneamente.</div>
+            </div>
+          </div>
+          <div class="ab2">
+            <div class="ah">
+              <span class="an">Absorver</span>
+              <span class="at2">AÇÃO PADRÃO · 1/COMBATE</span>
+              <div class="atags"><span class="a-t">[Físico]</span><span class="a-t">Toque</span><span class="a-t infect" style="color:#e05050;border-color:rgba(204,40,40,.3);background:rgba(204,40,40,.1)">Estágio IV</span><span class="mp-t">MP: 20</span></div>
+            </div>
+            <div class="abody">
+              <div class="amec">
+                <strong>Ataque:</strong> 1d20 + FOR +6 vs CA (vantagem contra Imobilizado).<br>
+                <strong>Dano:</strong> 4d10+6 cinético.<br>
+                <strong>Efeito:</strong> alvo faz CON CD 20 ou Infecção Estágio IV — fusão imediata com a Confluência.<br>
+                <strong>Estágio IV:</strong> irreversível sem Antídoto S+. O personagem é absorvido — suas memórias e habilidades passam para a Confluência.
+              </div>
+              <div class="af">Você passa a ser parte dela. Não como prisioneiro. Como ingrediente.</div>
+            </div>
+          </div>
+          <div class="ab2">
+            <div class="ah">
+              <span class="an">Vozes dos Hospedeiros</span>
+              <span class="at2">AÇÃO BÔNUS · 1/TURNO</span>
+              <div class="atags"><span class="a-t">[Mental]</span><span class="a-t">Área 12 m</span><span class="a-t">Insanidade</span><span class="mp-t">MP: 10</span></div>
+            </div>
+            <div class="abody">
+              <div class="amec">
+                <strong>Efeito:</strong> emite as vozes dos hospedeiros fundidos — incluindo NPCs conhecidos do grupo.<br>
+                <strong>Resistência:</strong> SAB CD 16 ou +1 ponto de Insanidade.<br>
+                <strong>Com hospedeiro reconhecido:</strong> CD sobe para 19 (mestre decide quais memórias são expressas).
+              </div>
+              <div class="af">Não é manipulação. É o que sobrou deles, pedindo ajuda.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="two">
+        <div>
+          <div class="st">Loot</div>
+          <div class="ll">
+            <div class="li">Núcleo parasitário central · componente de item rank A (Pesquisador NP 10+)</div>
+            <div class="li">Fragmento de memória fundida · item narrativo — o mestre decide quais memórias dos hospedeiros são recuperáveis</div>
+            <div class="li">Tecido de fusão · material de Antídoto rank A (cura Estágio IV se fresco)</div>
+          </div>
+        </div>
+        <div>
+          <div class="st">Protocolo Tático</div>
+          <div class="nb2">
+            <p><em>Objetivo principal: evitar a Absorção.</em> Qualquer personagem imobilizado adjacente à Confluência é alvo prioritário de Absorver com vantagem. Manter distância mínima de 3 m em todo momento. [Psíquico] em área (CD −3) é o único controle confiável. Aguardar abaixo de 80 HP para expor o núcleo central (RD 0, dano ×2).</p>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="st">Registro de Campo</div>
+        <div class="nb2">
+          <p>A pergunta sobre a Confluência é diferente da do Telepático. Com o Telepático, a questão é ontológica: o que é um ser distribuído? Com a Confluência, a questão é ética: o que você deve a alguém que ainda existe dentro de algo que precisa ser destruído?</p><p>Os hospedeiros estão conscientes — verificado por [Psíquico] em três amostras. Não como presença dominante: como eco. O suficiente para responder perguntas simples. <em>A Academia não tem protocolo para isso. O protocolo oficial diz "tratar como inimigo hostil". Nenhum pesquisador que aplicou esse protocolo o descreveu como simples.</em></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- RANK S · CARNE VIVA                        -->
+<!-- ══════════════════════════════════════════ -->
+<div class="m-wrap" id="carne-viva" data-r="S">
+  <div class="rank-row"><span class="rank-pip" style="background:var(--s)"></span>Estrangulador · Rank S — Evento de Campanha</div>
+  <div class="m-card">
+    
+        <div class="creature-illustration"><svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="300" height="200" fill="#080a0d"/>
+  <defs>
+    <radialGradient id="g" cx="50%" cy="50%" r="45%">
+      <stop offset="0%" stop-color="#7c3aed" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#080a0d" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <ellipse cx="150" cy="108" rx="80" ry="52" fill="url(#g)"/>
+  <line x1="0" y1="38" x2="300" y2="38" stroke="#7c3aed" stroke-width="0.3" stroke-opacity="0.2"/>
+  <line x1="0" y1="170" x2="300" y2="170" stroke="#7c3aed" stroke-width="0.3" stroke-opacity="0.15"/>
+  <path d="M10,10 L10,22 M10,10 L22,10" stroke="#7c3aed" stroke-width="1" fill="none" stroke-opacity="0.6"/>
+  <path d="M290,10 L290,22 M290,10 L278,10" stroke="#7c3aed" stroke-width="1" fill="none" stroke-opacity="0.6"/>
+  <path d="M10,190 L10,178 M10,190 L22,190" stroke="#7c3aed" stroke-width="1" fill="none" stroke-opacity="0.6"/>
+  <path d="M290,190 L290,178 M290,190 L278,190" stroke="#7c3aed" stroke-width="1" fill="none" stroke-opacity="0.6"/>
+  <ellipse cx="150" cy="108" rx="42" ry="30" fill="#141820" stroke="#7c3aed" stroke-width="1.0" stroke-opacity="0.7"/>
+  <path d="M120,95 Q150,85 180,95" stroke="#7c3aed" stroke-width="0.7" fill="none" stroke-opacity="0.5"/>
+  <path d="M115,108 Q150,118 185,108" stroke="#7c3aed" stroke-width="0.7" fill="none" stroke-opacity="0.5"/>
+  <line x1="108" y1="96" x2="82" y2="78" stroke="#7c3aed" stroke-width="1.2" stroke-opacity="0.6"/>
+  <line x1="108" y1="108" x2="78" y2="108" stroke="#7c3aed" stroke-width="1.2" stroke-opacity="0.6"/>
+  <line x1="108" y1="120" x2="82" y2="138" stroke="#7c3aed" stroke-width="1.0" stroke-opacity="0.5"/>
+  <line x1="192" y1="96" x2="218" y2="78" stroke="#7c3aed" stroke-width="1.2" stroke-opacity="0.6"/>
+  <line x1="192" y1="108" x2="222" y2="108" stroke="#7c3aed" stroke-width="1.2" stroke-opacity="0.6"/>
+  <line x1="192" y1="120" x2="218" y2="138" stroke="#7c3aed" stroke-width="1.0" stroke-opacity="0.5"/>
+  <circle cx="150" cy="108" r="8" fill="#7c3aed" fill-opacity="0.15"/>
+  <circle cx="150" cy="108" r="3" fill="#7c3aed" fill-opacity="0.5"/>
+  <text x="282" y="195" font-family="monospace" font-size="7" fill="#7c3aed" text-anchor="end" opacity="0.8">CARNE-VIVA</text>
+  <text x="18" y="195" font-family="monospace" font-size="7" fill="#7c3aed" opacity="0.5">RANK S</text>
+</svg></div>
+        <div class="ch">
+      <div>
+        <div class="c-label">Estrangulador · Rank S</div>
+        <div class="c-name">CARNE VIVA</div>
+        <div class="c-tags">
+          <span class="ctag">Boss</span>
+          <span class="ctag">2 Fases</span>
+          <span class="ctag infect">Hospedeiro: Região Inteira</span>
+          <span class="ctag">Fenda Grau S em Gestação</span>
+        </div>
+      </div>
+      <div class="rank-badge">S</div>
+    </div>
+    <div class="sbar">
+      <div class="si"><div class="sk">HP</div><div class="sv hp">650</div></div>
+      <div class="si"><div class="sk">MP</div><div class="sv mp">200</div></div>
+      <div class="si"><div class="sk">CA</div><div class="sv ca">17</div></div>
+      <div class="si"><div class="sk">RD</div><div class="sv rd">12</div></div>
+      <div class="si"><div class="sk">INIT.</div><div class="sv">+0</div></div>
+      <div class="si"><div class="sk">DESLOC.</div><div class="sv sm">0 m (imóvel)</div></div>
+    </div>
+    <div class="cb">
+      <p class="flavor">
+        Não parasita mais um corpo. Parasita um lugar. A Carne Viva é um Estrangulador que cresceu além da escala individual e se fundiu com o ambiente — solo, estruturas, criaturas mortas e vivas no perímetro. A região dentro do raio de 200 m é o hospedeiro. Tudo nessa área é, em alguma medida, parte da criatura.
+      </p>
+
+      <div class="two">
+        <div>
+          <div class="st">Atributos</div>
+          <div class="ag">
+            <div class="ab"><div class="ak">FOR</div><div class="av">26</div><div class="am">+8</div></div>
+            <div class="ab"><div class="ak">AGI</div><div class="av">4</div><div class="am">−3</div></div>
+            <div class="ab"><div class="ak">CON</div><div class="av">28</div><div class="am">+9</div></div>
+            <div class="ab"><div class="ak">INT</div><div class="av">20</div><div class="am">+5</div></div>
+            <div class="ab"><div class="ak">SAB</div><div class="av">16</div><div class="am">+3</div></div>
+          </div>
+          <div class="ml">
+            <div class="mr"><span class="mk">Tamanho</span><span class="mv">Colossal (200 m de raio)</span></div>
+            <div class="mr"><span class="mk">Ações/turno</span><span class="mv">2 Padrão + 2 Bônus</span></div>
+            <div class="mr"><span class="mk">Regen. F1</span><span class="mv">20 HP/turno</span></div>
+            <div class="mr"><span class="mk">Regen. F2</span><span class="mv">30 HP/turno</span></div>
+            <div class="mr"><span class="mk">Fenda</span><span class="mv">Grau S (gestação)</span></div>
+            <div class="mr"><span class="mk">Título rec.</span><span class="mv">Símbolo da Humanidade</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="st">Fraquezas &amp; Imunidades</div>
+          <div class="wl">
+            <div class="wr"><span class="wt v">VULNER</span><span class="wd">[Dimensional] — único que ignora RD 12. Dano total sem redução.</span></div>
+            <div class="wr"><span class="wt v">VULNER</span><span class="wd">Núcleo-raiz (Fase 2, CD 20): dano ×2, ignora RD. Exposto apenas quando HP abaixo de 200.</span></div>
+            <div class="wr"><span class="wt v">VULNER</span><span class="wd">Purgar o terreno (poder específico [Fogo] rank S ou [Void/Fenda]): suprime Regeneração por 4 turnos e causa 4d10 ao núcleo.</span></div>
+            <div class="wr"><span class="wt i">IMUNE</span><span class="wd">Todos os status, Empurrão, Deslocamento forçado, Morte instantânea.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="st">Fases</div>
+        <div class="phase-list">
+          <div class="phase">
+            <div class="phase-h">Fase 1 — Infestação (650–301 HP) · Regeneração 20 HP/turno</div>
+            <div class="phase-b">
+              Terreno infestado: o chão do raio de 200 m é parte da Carne Viva. Qualquer criatura que pisar no terreno sem proteção ([Gelo] sustentado ou bota reforçada rank C+) faz AGI CD 14/turno ou recebe Infecção Estágio I.<br><br>
+              Tentáculos de terreno: 1d4+1 tentáculos orgânicos emergem do solo por turno — cada um como Ancorante rank D (50 HP, CA 12, agem na mesma iniciativa da Carne Viva).<br><br>
+              Enquanto há 3+ tentáculos ativos: Regeneração aumentada para 28 HP/turno.
+            </div>
+          </div>
+          <div class="phase">
+            <div class="phase-h">Fase 2 — Rejeição (300–0 HP) · Regeneração 30 HP/turno</div>
+            <div class="phase-b">
+              Núcleo-raiz exposto: emerge do solo como criatura separada (100 HP, RD 0, CA 14) — ponto crítico.<br><br>
+              Ejeção de hospedeiros: libera 1d6 Corrompidos por turno — hospedeiros de animais e humanos da região, todos com Infecção Estágio III, com as habilidades relevantes.<br><br>
+              Campo de infecção intensificado: todos os testes de Infecção no terreno aumentam CD em 3.<br><br>
+              Colapso de terreno: ao chegar a 0 HP, o terreno infestado começa a se dissolver — todos no raio de 100 m fazem AGI CD 18 ou ficam Imobilizados no colapso por 1d4 turnos.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="st">Protocolo de Extermínio</div>
+        <div class="al">
+          <div class="ab2">
+            <div class="ah">
+              <span class="an">Erupção de Terreno</span>
+              <span class="at2">AÇÃO PADRÃO × 2/TURNO</span>
+              <div class="atags"><span class="a-t">[Físico]</span><span class="a-t">Área 6 m</span><span class="a-t infect" style="color:#5ab85a;border-color:rgba(58,107,58,.3);background:rgba(58,107,58,.1)">Infecção I</span><span class="mp-t">MP: 12</span></div>
+            </div>
+            <div class="abody">
+              <div class="amec">
+                <strong>Ataque:</strong> 1d20 + CON +9 vs CA — 1 área de 6 m dentro do terreno infestado.<br>
+                <strong>Dano:</strong> 4d10+8 cinético.<br>
+                <strong>Efeito:</strong> todos na área fazem CON CD 17 ou Infecção Estágio I + Prostrado.<br>
+                <strong>Resistência ao dano:</strong> AGI CD 16 para metade.
+              </div>
+              <div class="af">O chão ataca. Não metaforicamente.</div>
+            </div>
+          </div>
+          <div class="ab2">
+            <div class="ah">
+              <span class="an">Pulso de Infecção em Massa</span>
+              <span class="at2">AÇÃO PADRÃO · 25 MP · 1/FASE</span>
+              <div class="atags"><span class="a-t">[Exótico]</span><span class="a-t">Área 50 m</span><span class="a-t infect" style="color:#e05050;border-color:rgba(204,40,40,.3);background:rgba(204,40,40,.1)">Infecção II imediata</span><span class="mp-t">MP: 25</span></div>
+            </div>
+            <div class="abody">
+              <div class="amec">
+                <strong>Área:</strong> todos no terreno infestado (raio 50 m).<br>
+                <strong>Dano:</strong> 5d10 exótico.<br>
+                <strong>Efeito:</strong> todos fazem CON CD 18 ou Infecção Estágio II imediata.<br>
+                <strong>Resistência ao dano:</strong> CON CD 16 para metade. Infecção não tem resistência separada.
+              </div>
+              <div class="af">A região inteira pulsa. Uma vez.</div>
+            </div>
+          </div>
+          <div class="ab2">
+            <div class="ah">
+              <span class="an">Absorção Territorial</span>
+              <span class="at2">AÇÃO BÔNUS · PASSIVO/TURNO</span>
+              <div class="atags"><span class="a-t">[Físico]</span><span class="a-t">Hospedeiro morto na área</span><span class="a-t infect" style="color:#5ab85a;border-color:rgba(58,107,58,.3);background:rgba(58,107,58,.1)">Regenera</span><span class="mp-t">MP: —</span></div>
+            </div>
+            <div class="abody">
+              <div class="amec">
+                <strong>Automático:</strong> por cada criatura que morre dentro do terreno infestado:<br>
+                <strong>+10 HP</strong> para a Carne Viva (absorção do corpo).<br>
+                <strong>Inclui aliados, monstros invocados e Corrompidos destruídos.</strong><br>
+                Não tem resistência — não é ataque.
+              </div>
+              <div class="af">Cada morte dentro do perímetro alimenta o todo.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="two">
+        <div>
+          <div class="st">Loot</div>
+          <div class="ll">
+            <div class="li">Núcleo-raiz da Carne Viva · ingrediente de poder rank S (interação especial com poderes de terreno ou [Void/Fenda])</div>
+            <div class="li">Solo infestado purificado (5 kg) · componente de pesquisa — Pesquisador NP 13+ pode estudar o processo de infecção de terreno</div>
+            <div class="li">Memória territorial · item narrativo — o mestre decide o que a Carne Viva "viu" nos últimos meses na região</div>
+          </div>
+        </div>
+        <div>
+          <div class="st">Protocolo Tático</div>
+          <div class="nb2">
+            <p><em>Fase 1:</em> eliminar tentáculos imediatamente para suprimir a Regeneração bônus (28→20 HP). Proteção de terreno obrigatória ([Gelo] ou bota rank C+).<br><em>Fase 2:</em> foco no núcleo-raiz exposto (100 HP, RD 0) antes que os Corrompidos acumulem. Qualquer morte dentro do terreno regenera 10 HP — não matar monstros invocados dentro do perímetro, empurrar para fora primeiro.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- RANK SS · O CICLO                          -->
+<!-- ══════════════════════════════════════════ -->
+<div class="m-wrap" id="ciclo" data-r="SS">
+  <div class="rank-row"><span class="rank-pip" style="background:var(--ss)"></span>Estrangulador · Rank SS — Boss Final de Campanha</div>
+  <div class="m-card">
+    
+        <div class="creature-illustration"><svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="300" height="200" fill="#080a0d"/>
+  <defs>
+    <radialGradient id="g" cx="50%" cy="50%" r="45%">
+      <stop offset="0%" stop-color="#c8196e" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#080a0d" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <ellipse cx="150" cy="108" rx="80" ry="52" fill="url(#g)"/>
+  <line x1="0" y1="38" x2="300" y2="38" stroke="#c8196e" stroke-width="0.3" stroke-opacity="0.2"/>
+  <line x1="0" y1="170" x2="300" y2="170" stroke="#c8196e" stroke-width="0.3" stroke-opacity="0.15"/>
+  <path d="M10,10 L10,22 M10,10 L22,10" stroke="#c8196e" stroke-width="1" fill="none" stroke-opacity="0.6"/>
+  <path d="M290,10 L290,22 M290,10 L278,10" stroke="#c8196e" stroke-width="1" fill="none" stroke-opacity="0.6"/>
+  <path d="M10,190 L10,178 M10,190 L22,190" stroke="#c8196e" stroke-width="1" fill="none" stroke-opacity="0.6"/>
+  <path d="M290,190 L290,178 M290,190 L278,190" stroke="#c8196e" stroke-width="1" fill="none" stroke-opacity="0.6"/>
+  <ellipse cx="150" cy="108" rx="42" ry="30" fill="#141820" stroke="#c8196e" stroke-width="1.0" stroke-opacity="0.7"/>
+  <path d="M120,95 Q150,85 180,95" stroke="#c8196e" stroke-width="0.7" fill="none" stroke-opacity="0.5"/>
+  <path d="M115,108 Q150,118 185,108" stroke="#c8196e" stroke-width="0.7" fill="none" stroke-opacity="0.5"/>
+  <line x1="108" y1="96" x2="82" y2="78" stroke="#c8196e" stroke-width="1.2" stroke-opacity="0.6"/>
+  <line x1="108" y1="108" x2="78" y2="108" stroke="#c8196e" stroke-width="1.2" stroke-opacity="0.6"/>
+  <line x1="108" y1="120" x2="82" y2="138" stroke="#c8196e" stroke-width="1.0" stroke-opacity="0.5"/>
+  <line x1="192" y1="96" x2="218" y2="78" stroke="#c8196e" stroke-width="1.2" stroke-opacity="0.6"/>
+  <line x1="192" y1="108" x2="222" y2="108" stroke="#c8196e" stroke-width="1.2" stroke-opacity="0.6"/>
+  <line x1="192" y1="120" x2="218" y2="138" stroke="#c8196e" stroke-width="1.0" stroke-opacity="0.5"/>
+  <circle cx="150" cy="108" r="8" fill="#c8196e" fill-opacity="0.15"/>
+  <circle cx="150" cy="108" r="3" fill="#c8196e" fill-opacity="0.5"/>
+  <text x="282" y="195" font-family="monospace" font-size="7" fill="#c8196e" text-anchor="end" opacity="0.8">CICLO</text>
+  <text x="18" y="195" font-family="monospace" font-size="7" fill="#c8196e" opacity="0.5">RANK SS</text>
+</svg></div>
+        <div class="ch">
+      <div>
+        <div class="c-label">Estrangulador · Rank SS</div>
+        <div class="c-name">O CICLO</div>
+        <div class="c-tags">
+          <span class="ctag">Boss Absoluto</span>
+          <span class="ctag">4 Fases</span>
+          <span class="ctag infect">Centenas de Hospedeiros Acumulados</span>
+          <span class="ctag">Fenda Viva — Grau SS</span>
+          <span class="ctag">Evento de Campanha</span>
+        </div>
+      </div>
+      <div class="rank-badge">SS</div>
+    </div>
+    <div class="sbar">
+      <div class="si"><div class="sk">HP</div><div class="sv hp">1.200</div></div>
+      <div class="si"><div class="sk">MP</div><div class="sv mp">320</div></div>
+      <div class="si"><div class="sk">CA</div><div class="sv ca">20</div></div>
+      <div class="si"><div class="sk">RD</div><div class="sv rd">16</div></div>
+      <div class="si"><div class="sk">INIT.</div><div class="sv">+0</div></div>
+      <div class="si"><div class="sk">DESLOC.</div><div class="sv sm">0 m / Fase 3+: 9 m</div></div>
+    </div>
+    <div class="cb">
+      <p class="flavor">
+        O Ciclo não é um monstro que apareceu. É um processo que nunca parou. Centenas de hospedeiros ao longo de décadas — humanos, monstros, animais, Despertados, talvez coisas que não eram nenhum desses — todos fundidos em camadas sobre camadas. A forma exterior muda dependendo do que o Ciclo decidiu ser naquela fase. O que não muda é o núcleo: o primeiro hospedeiro, ainda presente, ainda consciente, sustentando tudo o que veio depois. Matar o Ciclo sem libertar o primeiro hospedeiro não é vitória. É apenas preparar o próximo ciclo.
+      </p>
+
+      <div style="background:rgba(200,25,110,.08); border:1px solid rgba(200,25,110,.2); border-radius:7px; padding:14px 16px;">
+        <div style="font-family:var(--mono); font-size:9px; letter-spacing:.14em; color:var(--ss); margin-bottom:8px;">NOTA NARRATIVA — OBRIGATÓRIA</div>
+        <p style="font-size:13px; color:var(--dim); line-height:1.6;">O primeiro hospedeiro do Ciclo deve ser definido pelo mestre antes da campanha — preferencialmente alguém com conexão histórica ao mundo ou ao grupo. Derrotar o Ciclo sem libertar o primeiro hospedeiro (Condição Especial) fecha a campanha mas não o Ciclo: em 1d10 anos, começa de novo com novo primeiro hospedeiro. Libertar o primeiro hospedeiro é a única vitória definitiva.</p>
+      </div>
+
+      <div class="two" style="margin-top:0">
+        <div>
+          <div class="st">Atributos</div>
+          <div class="ag">
+            <div class="ab"><div class="ak">FOR</div><div class="av">30</div><div class="am">+10</div></div>
+            <div class="ab"><div class="ak">AGI</div><div class="av">8</div><div class="am">−1</div></div>
+            <div class="ab"><div class="ak">CON</div><div class="av">32</div><div class="am">+11</div></div>
+            <div class="ab"><div class="ak">INT</div><div class="av">26</div><div class="am">+8</div></div>
+            <div class="ab"><div class="ak">SAB</div><div class="av">14</div><div class="am">+2</div></div>
+          </div>
+          <div class="ml">
+            <div class="mr"><span class="mk">Fases</span><span class="mv">4 (1200–901 / 900–601 / 600–301 / 300–0)</span></div>
+            <div class="mr"><span class="mk">Ações/turno</span><span class="mv">3 Padrão + 2 Bônus</span></div>
+            <div class="mr"><span class="mk">Regen.</span><span class="mv">20/25/35/45 HP/turno por fase</span></div>
+            <div class="mr"><span class="mk">Hospedeiros</span><span class="mv">Centenas (décadas de parasitismo)</span></div>
+            <div class="mr"><span class="mk">Fenda</span><span class="mv">Grau SS — O Ciclo É a fenda</span></div>
+            <div class="mr"><span class="mk">Título rec.</span><span class="mv">Símbolo da Humanidade</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="st">Fraquezas &amp; Imunidades</div>
+          <div class="wl">
+            <div class="wr"><span class="wt v">VULNER</span><span class="wd">[Dimensional] e [Void/Fenda] — ignora RD 16 completamente. Único vetor de dano pleno.</span></div>
+            <div class="wr"><span class="wt v">VULNER</span><span class="wd">Primeiro Hospedeiro (Fase 4, Condição Especial): dano ×3 ao núcleo. Ver Condição Especial.</span></div>
+            <div class="wr"><span class="wt v">VULNER</span><span class="wd">Instabilidade do Ciclo: quando 3+ Corrompidos são destruídos no mesmo turno, o Ciclo perde 1 ação padrão no próximo turno.</span></div>
+            <div class="wr"><span class="wt r">RESIST</span><span class="wd">Todos os elementais: absorve 50% como HP.</span></div>
+            <div class="wr"><span class="wt i">IMUNE</span><span class="wd">Todos os status. Morte instantânea. Qualquer efeito mental exceto [Psíquico] direto no núcleo.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="st">Fases do Ciclo</div>
+        <div class="phase-list">
+          <div class="phase">
+            <div class="phase-h ss">Fase 1 — Memória (1200–901 HP) · Regeneração 20 HP/turno</div>
+            <div class="phase-b">
+              O Ciclo manifesta o exterior como a fusão de seus primeiros hospedeiros — formas reconhecíveis, distorcidas. Ainda não mostra o que está dentro.<br><br>
+              Ejeção de Passado: a cada turno, ejeta 1d4 Corrompidos de hospedeiros anteriores — com habilidades de rank D/C. Agem na mesma iniciativa.<br><br>
+              Vozes Acumuladas: todas as criaturas no encontro fazem SAB CD 18/turno ou +1 Insanidade (as memórias de centenas de hospedeiros emitem ao mesmo tempo).<br><br>
+              [Psíquico] no Ciclo nesta fase: revela 1 memória de hospedeiro por uso — pode incluir informação de missão.
+            </div>
+          </div>
+          <div class="phase">
+            <div class="phase-h ss">Fase 2 — Absorção (900–601 HP) · Regeneração 25 HP/turno</div>
+            <div class="phase-b">
+              O Ciclo para de ser defensivo. Começa a tentar absorver o grupo ativamente — priorizando Despertados.<br><br>
+              Ejeção escala: 1d6 Corrompidos por turno (rank C/B). Campo de Infecção: raio de 30 m, CD de todos os testes de infecção +3.<br><br>
+              Absorção Passiva: qualquer personagem que ficar adjacente ao Ciclo por 2 turnos consecutivos faz CON CD 19 ou entra em Infecção Estágio III automaticamente.<br><br>
+              Habilidades acumuladas: usa qualquer poder de qualquer hospedeiro anterior (mestre define repertório). Máximo 3 poderes de hospedeiro por turno.
+            </div>
+          </div>
+          <div class="phase">
+            <div class="phase-h ss">Fase 3 — Forma Final (600–301 HP) · Regeneração 35 HP/turno</div>
+            <div class="phase-b">
+              O Ciclo assume a forma do hospedeiro mais poderoso que já absorveu — provavelmente um Quebrador ou Lenda Viva. O grupo o enfrenta na forma de alguém que pode conhecer ou ter ouvido falar.<br><br>
+              Deslocamento 9 m: pela primeira vez, pode se mover. Persegue ativamente.<br><br>
+              Ejeção contínua: 2d4 Corrompidos de rank variado (1-3=C, 4-5=B, 6=A) por turno.<br><br>
+              Repertório pleno: acesso a todos os poderes de todos os hospedeiros anteriores. Usa os mais eficazes contra a composição atual do grupo.
+            </div>
+          </div>
+          <div class="phase">
+            <div class="phase-h ss">Fase 4 — O Primeiro (300–0 HP) · Regeneração 45 HP/turno</div>
+            <div class="phase-b">
+              A camada exterior se dissolve. O que resta é o primeiro hospedeiro — preservado, transformado, não-morto e não-vivo. Olha para o grupo com olhos que reconhecem.<br><br>
+              Núcleo exposto: o primeiro hospedeiro É o núcleo. Dano direto nele causa ×3. Mas ele ainda tem a aparência e voz de um ser consciente.<br><br>
+              Regeneração máxima: 45 HP/turno. Sem a Condição Especial, o combate é de atrito puro.<br><br>
+              Último apelo: o primeiro hospedeiro fala. O que diz é o que o mestre preparou. Pode ser pedido de ajuda. Pode ser informação. Pode ser algo que muda tudo.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="st">Protocolo de Extermínio</div>
+        <div class="al">
+          <div class="ab2">
+            <div class="ah">
+              <span class="an">Tudo Que Absorveu</span>
+              <span class="at2">AÇÃO PADRÃO × 3/TURNO</span>
+              <div class="atags"><span class="a-t">Repertório de hospedeiros</span><span class="a-t">Qualquer tipo</span><span class="mp-t">MP: variável</span></div>
+            </div>
+            <div class="abody">
+              <div class="amec">
+                <strong>3 ações padrão por turno</strong> — o Ciclo pode usar até 3 poderes de hospedeiros diferentes.<br>
+                <strong>Cada poder:</strong> usa os atributos do hospedeiro original +4 (amplificação do Ciclo).<br>
+                <strong>Escolha:</strong> sempre usa a combinação mais eficaz contra o grupo atual (INT +8 — o Ciclo calcula).
+              </div>
+              <div class="af">Décadas de experiência de combate acumulada. Não há surpresa para ele.</div>
+            </div>
+          </div>
+          <div class="ab2">
+            <div class="ah">
+              <span class="an">Absorção Final</span>
+              <span class="at2">AÇÃO PADRÃO · 40 MP · 1/FASE</span>
+              <div class="atags"><span class="a-t">[Dimensional][Físico]</span><span class="a-t">Toque</span><span class="a-t infect" style="color:#e05050;border-color:rgba(204,40,40,.3);background:rgba(204,40,40,.1)">Estágio IV imediato</span><span class="mp-t">MP: 40</span></div>
+            </div>
+            <div class="abody">
+              <div class="amec">
+                <strong>Ataque:</strong> 1d20 + FOR +10 vs CA (vantagem se alvo adjacente por 2+ turnos).<br>
+                <strong>Dano:</strong> 6d10+10 (ignora RD).<br>
+                <strong>Efeito:</strong> CON CD 22 ou Infecção Estágio IV — o personagem é absorvido pelo Ciclo.<br>
+                <strong>Absorvido:</strong> irreversível sem Condição Especial. O Ciclo regenera 50 HP imediatamente.
+              </div>
+              <div class="af">Você se tornaria parte de algo mais antigo do que qualquer coisa que você conhece.</div>
+            </div>
+          </div>
+          <div class="ab2">
+            <div class="ah">
+              <span class="an">Libertar o Primeiro Hospedeiro</span>
+              <span class="at2">CONDIÇÃO ESPECIAL — FASE 4</span>
+              <div class="atags"><span class="a-t">Resolução narrativa</span><span class="a-t infect" style="color:#5ab85a;border-color:rgba(58,107,58,.3);background:rgba(58,107,58,.1)">Vitória definitiva</span><span class="mp-t">Antídoto SS</span></div>
+            </div>
+            <div class="abody">
+              <div class="amec">
+                <strong>Condição:</strong> reduzir o Ciclo a 100 HP ou menos SEM matar.<br>
+                <strong>Requerimentos:</strong> Antídoto rank SS (único na campanha) + Medicina CD 24 + ação padrão de aliado adjacente.<br>
+                <strong>Sucesso:</strong> o primeiro hospedeiro é liberado — o Ciclo se dissolve sem Regeneração. Vitória definitiva.<br>
+                <strong>Falha (Medicina):</strong> segunda tentativa possível se HP ainda acima de 0. Cada falha causa 2d10 ao aliado que tenta (o Ciclo reage).<br>
+                <strong>Se matarem o Ciclo antes:</strong> o Ciclo está morto. Em 1d10 anos, começa de novo.
+              </div>
+              <div class="af">Não existe vitória sem custo. A pergunta é de que tipo.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="two">
+        <div>
+          <div class="st">Loot — Vitória Definitiva</div>
+          <div class="ll">
+            <span class="loot-warn">⚠ Apenas disponível na vitória com Libertar o Primeiro Hospedeiro</span>
+            <div class="li">Essência do Ciclo · item narrativo lendário — o mestre decide o que o primeiro hospedeiro revelou e o que essa informação significa para o mundo</div>
+            <div class="li">Fragmento do primeiro hospedeiro · componente único de pesquisa rank SS — Pesquisador NP 16+ pode estudar a origem do parasitismo dos Estranguladores</div>
+            <div class="li">Memória de Décadas · narrativa — o grupo tem acesso ao que o Ciclo viu. O que fazer com isso é uma questão de campanha.</div>
+          </div>
+        </div>
+        <div>
+          <div class="st">Loot — Vitória Parcial</div>
+          <div class="ll">
+            <div class="li">Núcleo residual do Ciclo · componente de poder rank SS (Pesquisador NP 16+)</div>
+            <div class="li">Tecido de centenas de hospedeiros · material lendário de armadura (Armadura Viva — absorve 1 infecção completa por missão)</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="st">Protocolo Tático — Resumo de Campanha</div>
+        <div class="nb2">
+          <p><em>Fase 1:</em> controlar Insanidade (SAB CD 18/turno) e eliminar Corrompidos em grupo de 3+ para suprimir ações (−1 padrão). [Psíquico] revela memórias — pode valer informação.</p>
+          <p><em>Fase 2:</em> nunca ficar adjacente por 2 turnos. Campo de infecção +3 — usar profilaxia preventiva. Identificar os 3 poderes mais perigosos do repertório e priorizá-los com resistência.</p>
+          <p><em>Fase 3:</em> o Ciclo se move — reorganizar formação. Foco em eliminar Corrompidos de rank A antes de focar no Ciclo. [Dimensional] é o único caminho sem atrito.</p>
+          <p><em>Fase 4:</em> <em>decidir: matar ou libertar?</em> Libertar requer o Antídoto SS (preparado antes da missão) + manter o Ciclo entre 101–0 HP sem matá-lo + Medicina CD 24. O primeiro hospedeiro vai falar. O que ele diz muda a decisão.</p>
+        </div>
+      </div>
+
+      <div>
+        <div class="st">Registro de Campo — Classificado</div>
+        <div class="nb2">
+          <p>Se a Mãe-Fenda (Bestiário Vol. I) é sobre propósito — o que está sendo construído — o Ciclo é sobre memória: o que já foi vivido, quantas vezes, e o que isso significa. São ameaças categoricamente distintas.</p><p>O Ciclo é o único monstro catalogado cuja derrota total — morte sem libertação — é considerada pelo Departamento de Pesquisa de Fendas como resultado negativo para a humanidade a longo prazo. A razão está nas memórias: o primeiro hospedeiro carrega informação que o Ciclo acumulou por décadas sobre a natureza das fendas, sobre o que está do outro lado, sobre por que as fendas abrem.</p>
+          <p><em>O Ciclo não é o inimigo. É o arquivo. O parasita é o método, não o ponto.</em> O que o primeiro hospedeiro sabe, e o que o grupo decide fazer com isso, é a última questão da campanha.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="section-div">
+<footer>
+  <span class="f-brand">PROGRAMA ÊXODOS — ACADEMIA CENTRAL</span>
+  <span class="f-info">BESTIÁRIO v6 · CATEGORIA II · ESTRANGULADORES · 11 CRIATURAS · E–SS</span>
+</footer>
+
+</body>
+</html>
+        <div style="background:rgba(42,80,42,.1);border:1px solid rgba(58,107,58,.3);border-radius:5px;padding:11px 14px;margin:12px 16px 0;">
+          <p style="font-family:'Syne Mono',monospace;font-size:8px;letter-spacing:.14em;color:#5ab85a;margin-bottom:5px;">NOTA DE MESTRE — AUSÊNCIA DE DILEMA</p>
+          <p style="font-size:13px;color:#9aa0b0;line-height:1.6;">O Simbiótico é o único parasita rank B <strong style="color:#e0e8f4;">sem componente de decisão moral</strong>. <strong style="color:#e0e8f4;">Dois combates, não um dilema.</strong> Para tensão narrativa em rank B, use o Corrompido.</p>
+        </div>
+        <div style="background:rgba(180,40,40,.12);border:1px solid rgba(180,40,40,.35);border-radius:5px;padding:11px 14px;margin:12px 16px 0;">
+          <p style="font-family:'Syne Mono',monospace;font-size:8px;letter-spacing:.14em;color:#e06060;margin-bottom:5px;">⚠ NOTA DE MESTRE — ESTE É SEMPRE UM DILEMA</p>
+          <p style="font-size:13px;color:#9aa0b0;line-height:1.6;">O Corrompido funciona <strong style="color:#f0f4ff;">somente se o NPC infectado importar para o grupo</strong>. Defina quem é o hospedeiro antes da campanha. <strong style="color:#f0f4ff;">O grupo deve terminar essa cena tendo feito uma escolha real, não apenas rolado dados.</strong></p>
+        </div>
